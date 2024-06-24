@@ -385,7 +385,7 @@
     },
     "identical_descriptions": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Warning"
     },
     "identical_form_names": {
       "exclude": [],
