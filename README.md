@@ -15,3 +15,4 @@ Allows for easy export of all texts in given package/program etc. to excel file,
 | Table | - | |
 | Data element | - | |
 | Domain values | - | |
+| Transactions | - | |
