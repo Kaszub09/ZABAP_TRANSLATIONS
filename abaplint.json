@@ -759,7 +759,7 @@
     },
     "space_before_dot": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Warning",
       "ignoreGlobalDefinition": true,
       "ignoreExceptions": true
     },
