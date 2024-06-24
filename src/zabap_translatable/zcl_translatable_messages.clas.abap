@@ -13,7 +13,7 @@ CLASS zcl_translatable_messages DEFINITION
     METHODS:
       get_text IMPORTING text_id TYPE string RETURNING VALUE(text) TYPE REF TO zif_translatable=>t_text,
       modify_translation IMPORTING sap_lang TYPE syst_langu content TYPE textpooltx
-                         CHANGING  translations TYPE zif_translatable=>tt_translation..
+                         CHANGING  translations TYPE zif_translatable=>tt_translation.
 
     DATA:
       texts        TYPE zif_translatable=>tt_text.
@@ -43,7 +43,8 @@ CLASS zcl_translatable_messages IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD zif_translatable~modify_texts.
-    LOOP AT new_texts REFERENCE INTO DATA(new_text).
+    LOOP AT new_texts REFERENCE INTO DATA(new_text) USING KEY text_id
+    WHERE object_type = zif_translatable~object_type AND object_name = zif_translatable~object_name.
       DATA(program_text) = get_text( new_text->text_id ).
       LOOP AT new_text->translations REFERENCE INTO DATA(new_translation).
         modify_translation( EXPORTING sap_lang = new_translation->sap_lang content = new_translation->content
@@ -57,7 +58,7 @@ CLASS zcl_translatable_messages IMPLEMENTATION.
 
     LOOP AT texts REFERENCE INTO DATA(text).
       LOOP AT text->translations REFERENCE INTO DATA(translation) WHERE sap_lang = sap_lang.
-        APPEND VALUE #( arbgb = zif_translatable~object_name msgnr = text->text_id text = translation->content ) TO t100_table.
+        APPEND VALUE #( sprsl = sap_lang arbgb = zif_translatable~object_name msgnr = text->text_id text = translation->content ) TO t100_table.
       ENDLOOP.
     ENDLOOP.
 
@@ -78,6 +79,4 @@ CLASS zcl_translatable_messages IMPLEMENTATION.
     ENDIF.
     translation->content = content.
   ENDMETHOD.
-
-
 ENDCLASS.

@@ -12,29 +12,6 @@
    </PROGDIR>
    <TPOOL>
     <item>
-     <ID>R</ID>
-     <ENTRY>Program to export/import translations</ENTRY>
-     <LENGTH>37</LENGTH>
-    </item>
-    <item>
-     <ID>S</ID>
-     <KEY>P_EXPORT</KEY>
-     <ENTRY>Export</ENTRY>
-     <LENGTH>14</LENGTH>
-    </item>
-    <item>
-     <ID>S</ID>
-     <KEY>P_FILE</KEY>
-     <ENTRY>File</ENTRY>
-     <LENGTH>12</LENGTH>
-    </item>
-    <item>
-     <ID>S</ID>
-     <KEY>P_IMPORT</KEY>
-     <ENTRY>Import</ENTRY>
-     <LENGTH>14</LENGTH>
-    </item>
-    <item>
      <ID>I</ID>
      <KEY>S01</KEY>
      <ENTRY>Languages</ENTRY>
@@ -59,10 +36,51 @@
      <LENGTH>17</LENGTH>
     </item>
     <item>
+     <ID>R</ID>
+     <ENTRY>Program to export/import translations</ENTRY>
+     <LENGTH>37</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_EXPORT</KEY>
+     <ENTRY>Export</ENTRY>
+     <LENGTH>14</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_FILE</KEY>
+     <ENTRY>File</ENTRY>
+     <LENGTH>12</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_IMPORT</KEY>
+     <ENTRY>Import</ENTRY>
+     <LENGTH>14</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>S_CLASS</KEY>
+     <ENTRY>Class</ENTRY>
+     <LENGTH>13</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>S_FUNGR</KEY>
+     <ENTRY>Function group</ENTRY>
+     <LENGTH>22</LENGTH>
+    </item>
+    <item>
      <ID>S</ID>
      <KEY>S_LANG</KEY>
      <ENTRY>Languages</ENTRY>
      <LENGTH>17</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>S_MSGCLS</KEY>
+     <ENTRY>Message class</ENTRY>
+     <LENGTH>21</LENGTH>
     </item>
     <item>
      <ID>S</ID>
