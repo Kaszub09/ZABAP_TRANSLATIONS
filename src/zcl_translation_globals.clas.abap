@@ -6,7 +6,10 @@ CLASS zcl_translation_globals DEFINITION PUBLIC FINAL CREATE PUBLIC.
       BEGIN OF c_object_type,
         program TYPE trobjtype  VALUE 'PROG',
         class   TYPE trobjtype  VALUE 'CLAS',
-      END OF c_object_type.
+      END OF c_object_type,
+      BEGIN OF c_subcomponent,
+        textpool TYPE string  VALUE 'TEXTPOOL',
+      END OF c_subcomponent.
 ENDCLASS.
 
 CLASS zcl_translation_globals IMPLEMENTATION.

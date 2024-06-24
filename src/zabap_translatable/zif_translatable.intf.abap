@@ -1,8 +1,8 @@
 INTERFACE zif_translatable PUBLIC.
   TYPES:
     BEGIN OF t_translation,
-      sap_lang     TYPE sy-langu,
-      content TYPE textpool-entry,
+      sap_lang TYPE sy-langu,
+      content  TYPE textpool-entry,
     END OF t_translation,
     tt_translation TYPE SORTED TABLE OF t_translation WITH UNIQUE KEY sap_lang,
     BEGIN OF t_text,
@@ -20,4 +20,8 @@ INTERFACE zif_translatable PUBLIC.
     get_all_texts RETURNING VALUE(texts) TYPE tt_text,
     modify_texts IMPORTING new_texts TYPE tt_text,
     save_modified_texts IMPORTING sap_lang TYPE sy-langu.
+
+  DATA:
+    object_type TYPE trobjtype READ-ONLY,
+    object_name TYPE sobj_name READ-ONLY.
 ENDINTERFACE.
