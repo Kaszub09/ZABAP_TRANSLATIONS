@@ -8,7 +8,8 @@ CLASS zcl_translation_globals DEFINITION PUBLIC FINAL CREATE PUBLIC.
         class   TYPE trobjtype  VALUE 'CLAS',
       END OF c_object_type,
       BEGIN OF c_subcomponent,
-        textpool TYPE string  VALUE 'TEXTPOOL',
+        textpool        TYPE string  VALUE 'TEXTPOOL',
+        screen_texts TYPE string  VALUE 'SCREEN_TEXTS',
       END OF c_subcomponent.
 ENDCLASS.
 

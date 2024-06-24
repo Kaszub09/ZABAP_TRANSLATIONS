@@ -103,6 +103,7 @@ CLASS zcl_translation_file IMPLEMENTATION.
 
     "Assume first row has headers with ISO languages as translations
     DATA(mapping) = get_column_mapping( <table>[ 1 ] ).
+    "TODO error handling when no mapping - col is 0
 
     DELETE <table> INDEX 1.
     LOOP AT <table> ASSIGNING FIELD-SYMBOL(<row>).
@@ -125,7 +126,7 @@ CLASS zcl_translation_file IMPLEMENTATION.
   METHOD import_table_from_excel.
     "Upload and parse excel file
     DATA it_bin_data TYPE w3mimetabtype.
-
+    "TODO error handling file exists?
     cl_gui_frontend_services=>gui_upload( EXPORTING filename = full_file_path filetype = 'BIN' CHANGING data_tab = it_bin_data ).
     DATA(file_as_xstring) = cl_bcs_convert=>solix_to_xstring( it_bin_data ).
     DATA(excel) = NEW cl_fdt_xl_spreadsheet( document_name = full_file_path xdocument = file_as_xstring ).
