@@ -20,6 +20,6 @@ ENDCLASS.
 
 CLASS zcl_translation_languages IMPLEMENTATION.
   METHOD constructor.
-    SELECT spras AS sap, laiso AS iso FROM t002 INTO CORRESPONDING FIELDS OF TABLE @languages WHERE spras IN @lang_range.
+    SELECT spras AS sap, laiso AS iso FROM t002 WHERE spras IN @lang_range INTO CORRESPONDING FIELDS OF TABLE @languages .
   ENDMETHOD.
 ENDCLASS.

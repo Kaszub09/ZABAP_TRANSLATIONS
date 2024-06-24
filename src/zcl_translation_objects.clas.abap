@@ -10,7 +10,7 @@ CLASS zcl_translation_objects DEFINITION PUBLIC FINAL CREATE PUBLIC.
   PRIVATE SECTION.
     DATA:
       languages     TYPE REF TO zcl_translation_languages,
-      translatables TYPE STANDARD TABLE OF REF TO zif_translatable.
+      translatables TYPE STANDARD TABLE OF REF TO zif_translatable WITH EMPTY KEY.
 ENDCLASS.
 
 CLASS zcl_translation_objects IMPLEMENTATION.

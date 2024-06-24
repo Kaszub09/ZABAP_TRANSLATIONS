@@ -92,9 +92,9 @@ CLASS zcl_translation_file IMPLEMENTATION.
     ENDLOOP.
 
     "Export
-    DATA(lv_xml_bytes) = salv->to_xml( xml_type = if_salv_bs_xml=>c_type_xlsx ).
-    cl_scp_change_db=>xstr_to_xtab( EXPORTING im_xstring = lv_xml_bytes IMPORTING ex_size = DATA(lv_size) ex_xtab = DATA(it_raw_data) ).
-    cl_gui_frontend_services=>gui_download( EXPORTING filename = full_file_path filetype = 'BIN' bin_filesize = lv_size CHANGING data_tab = it_raw_data ).
+    DATA(xml_bytes) = salv->to_xml( xml_type = if_salv_bs_xml=>c_type_xlsx ).
+    cl_scp_change_db=>xstr_to_xtab( EXPORTING im_xstring = xml_bytes IMPORTING ex_size = DATA(size) ex_xtab = DATA(raw_data) ).
+    cl_gui_frontend_services=>gui_download( EXPORTING filename = full_file_path filetype = 'BIN' bin_filesize = size CHANGING data_tab = raw_data ).
   ENDMETHOD.
 
   METHOD import_from_excel.
