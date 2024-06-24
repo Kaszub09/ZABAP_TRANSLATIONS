@@ -30,14 +30,6 @@
       "exclude": [],
       "severity": "Error"
     },
-    "abapdoc": {
-      "exclude": [],
-      "severity": "Info",
-      "checkLocal": false,
-      "classDefinition": false,
-      "interfaceDefinition": false,
-      "ignoreTestClasses": true
-    },
     "allowed_object_naming": {
       "exclude": [],
       "severity": "Error"
@@ -55,7 +47,7 @@
       "exclude": [],
       "severity": "Error",
       "skipQuickFix": false,
-      "define": true,
+      "define": false,
       "statics": true,
       "defaultKey": true,
       "break": true,
@@ -104,20 +96,6 @@
     "check_include": {
       "exclude": [],
       "severity": "Error"
-    },
-    "check_subrc": {
-      "exclude": [],
-      "severity": "Warning",
-      "openDataset": true,
-      "authorityCheck": true,
-      "selectSingle": true,
-      "selectTable": true,
-      "updateDatabase": true,
-      "insertDatabase": true,
-      "modifyDatabase": true,
-      "readTable": true,
-      "assign": true,
-      "find": true
     },
     "check_syntax": {
       "exclude": [],
@@ -191,7 +169,7 @@
     },
     "double_space": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Warning",
       "keywords": true,
       "startParen": true,
       "endParen": true,
@@ -208,11 +186,11 @@
     },
     "empty_statement": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Info"
     },
     "empty_structure": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Info",
       "loop": true,
       "if": true,
       "while": true,
@@ -228,10 +206,6 @@
       "severity": "Error",
       "allowExit": false,
       "allowCheck": false
-    },
-    "expand_macros": {
-      "exclude": [],
-      "severity": "Error"
     },
     "exporting": {
       "exclude": [],
@@ -445,7 +419,7 @@
     },
     "keyword_case": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Warning",
       "style": "upper",
       "ignoreExceptions": true,
       "ignoreLowerClassImplmentationStatement": true,
@@ -488,7 +462,7 @@
     },
     "max_one_statement": {
       "exclude": [],
-      "severity": "Warning"
+      "severity": "Info"
     },
     "message_exists": {
       "exclude": [],
@@ -550,10 +524,6 @@
       "severity": "Error"
     },
     "no_external_form_calls": {
-      "exclude": [],
-      "severity": "Error"
-    },
-    "no_inline_in_optional_branches": {
       "exclude": [],
       "severity": "Error"
     },
@@ -644,7 +614,7 @@
     },
     "omit_parameter_name": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Warning"
     },
     "omit_preceding_zeros": {
       "exclude": [],
