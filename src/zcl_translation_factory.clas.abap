@@ -12,6 +12,10 @@ CLASS zcl_translation_factory IMPLEMENTATION.
     CASE object_type.
       WHEN zcl_translation_globals=>c_object_type-program.
         translatable = NEW zcl_translatable_program( object_name ).
+      WHEN zcl_translation_globals=>c_object_type-class.
+        translatable = NEW zcl_translatable_class( object_name ).
+      WHEN zcl_translation_globals=>c_object_type-function_group.
+        translatable = NEW zcl_translatable_function_gr( object_name ).
       WHEN OTHERS. "TODO error handling
     ENDCASE.
   ENDMETHOD.

@@ -18,7 +18,9 @@ SELECTION-SCREEN END OF BLOCK b01.
 SELECTION-SCREEN BEGIN OF BLOCK b04 WITH FRAME TITLE TEXT-s04.
 SELECT-OPTIONS:
 s_packag FOR tadir-devclass,
-s_prog FOR tadir-obj_name.
+s_prog FOR tadir-obj_name,
+s_class FOR tadir-obj_name,
+s_fungr FOR tadir-obj_name.
 SELECTION-SCREEN END OF BLOCK b04.
 
 SELECTION-SCREEN BEGIN OF BLOCK b02 WITH FRAME TITLE TEXT-s02.
@@ -48,7 +50,9 @@ FORM export.
   SELECT FROM tadir
   FIELDS object  AS object_type, obj_name AS object_name
   WHERE devclass IN @s_packag
-    AND ( object = @zcl_translation_globals=>c_object_type-program AND obj_name IN @s_prog )
+    AND ( ( object = @zcl_translation_globals=>c_object_type-program AND obj_name IN @s_prog )
+       OR ( object = @zcl_translation_globals=>c_object_type-class AND obj_name IN @s_class )
+       OR ( object = @zcl_translation_globals=>c_object_type-function_group AND obj_name IN @s_fungr ) )
   INTO TABLE @DATA(objects).
 
   DATA(translation_objects) = NEW zcl_translation_objects( languages ).
