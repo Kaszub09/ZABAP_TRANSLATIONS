@@ -29,11 +29,11 @@ ENDCLASS.
 
 CLASS zcl_translatable_program IMPLEMENTATION.
   METHOD constructor.
-    program_name = program .
+    program_name = program.
   ENDMETHOD.
 
   METHOD zif_translatable~read_language.
-    DATA textpool TYPE STANDARD TABLE OF textpool.
+    DATA textpool TYPE STANDARD TABLE OF textpool WITH EMPTY KEY.
     READ TEXTPOOL program_name INTO textpool LANGUAGE sap_lang.
 
     LOOP AT textpool REFERENCE INTO DATA(textpool_text).
@@ -65,7 +65,7 @@ CLASS zcl_translatable_program IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD zif_translatable~save_modified_texts.
-    DATA textpool TYPE STANDARD TABLE OF textpool.
+    DATA textpool TYPE STANDARD TABLE OF textpool WITH EMPTY KEY.
 
     LOOP AT texts REFERENCE INTO DATA(text).
       parse_text_id( EXPORTING text_id = text->text_id IMPORTING id = DATA(id) key = DATA(key) ).

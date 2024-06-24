@@ -35,6 +35,30 @@
      <LENGTH>14</LENGTH>
     </item>
     <item>
+     <ID>I</ID>
+     <KEY>S01</KEY>
+     <ENTRY>Languages</ENTRY>
+     <LENGTH>19</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S02</KEY>
+     <ENTRY>Action</ENTRY>
+     <LENGTH>16</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S03</KEY>
+     <ENTRY>File</ENTRY>
+     <LENGTH>14</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>S04</KEY>
+     <ENTRY>Objects</ENTRY>
+     <LENGTH>17</LENGTH>
+    </item>
+    <item>
      <ID>S</ID>
      <KEY>S_LANG</KEY>
      <ENTRY>Languages</ENTRY>
