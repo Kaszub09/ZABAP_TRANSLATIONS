@@ -7,6 +7,7 @@ CLASS zcl_translation_globals DEFINITION PUBLIC FINAL CREATE PUBLIC.
         program        TYPE trobjtype  VALUE 'PROG',
         class          TYPE trobjtype  VALUE 'CLAS',
         function_group TYPE trobjtype  VALUE 'FUGR',
+        message_class  TYPE trobjtype  VALUE 'MSAG',
       END OF c_object_type,
       BEGIN OF c_subcomponent,
         textpool     TYPE string  VALUE 'TEXTPOOL',

@@ -20,7 +20,8 @@ SELECT-OPTIONS:
 s_packag FOR tadir-devclass,
 s_prog FOR tadir-obj_name,
 s_class FOR tadir-obj_name,
-s_fungr FOR tadir-obj_name.
+s_fungr FOR tadir-obj_name,
+s_msgcls FOR tadir-obj_name.
 SELECTION-SCREEN END OF BLOCK b04.
 
 SELECTION-SCREEN BEGIN OF BLOCK b02 WITH FRAME TITLE TEXT-s02.
@@ -50,9 +51,10 @@ FORM export.
   SELECT FROM tadir
   FIELDS object  AS object_type, obj_name AS object_name
   WHERE devclass IN @s_packag
-    AND ( ( object = @zcl_translation_globals=>c_object_type-program AND obj_name IN @s_prog )
-       OR ( object = @zcl_translation_globals=>c_object_type-class AND obj_name IN @s_class )
-       OR ( object = @zcl_translation_globals=>c_object_type-function_group AND obj_name IN @s_fungr ) )
+    AND ( ( object = @zcl_translation_globals=>c_object_type-program AND obj_name IN @s_prog and @( lines( s_prog ) ) > 0 )
+       OR ( object = @zcl_translation_globals=>c_object_type-class AND obj_name IN @s_class and @( lines( s_class ) ) > 0 )
+       OR ( object = @zcl_translation_globals=>c_object_type-function_group AND obj_name IN @s_fungr and @( lines( s_fungr ) ) > 0 )
+       OR ( object = @zcl_translation_globals=>c_object_type-message_class AND obj_name IN @s_msgcls and @( lines( s_msgcls ) ) > 0 ) )
   INTO TABLE @DATA(objects).
 
   DATA(translation_objects) = NEW zcl_translation_objects( languages ).
