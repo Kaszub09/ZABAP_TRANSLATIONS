@@ -1,0 +1,10 @@
+{
+"configurations": {
+    "conf1": {
+      "filename": "./abaplint.json"
+    },
+    "conf2": {
+      "filename": "./lint2.json"
+    }
+  }
+}
