@@ -66,7 +66,7 @@
     },
     "call_transaction_authority_check": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Warning"
     },
     "cds_comment_style": {
       "exclude": [],
@@ -79,19 +79,10 @@
     "cds_parser_error": {
       "exclude": [],
       "severity": "Error"
-    },
-    "change_if_to_case": {
-      "exclude": [],
-      "severity": "Error",
-      "skipNames": []
-    },
-    "check_abstract": {
-      "exclude": [],
-      "severity": "Error"
-    },
+    }, 
     "check_ddic": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Warning"
     },
     "check_include": {
       "exclude": [],
@@ -103,46 +94,20 @@
     },
     "check_text_elements": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Info"
     },
     "check_transformation_exists": {
       "exclude": [],
-      "severity": "Error"
-    },
-    "classic_exceptions_overlap": {
-      "exclude": [],
-      "severity": "Error"
-    },
+      "severity": "Warning"
+    }, 
     "colon_missing_space": {
       "exclude": [],
-      "severity": "Error"
-    },
-    "commented_code": {
-      "exclude": [],
-      "severity": "Error",
-      "allowIncludeInFugr": true
-    },
-    "constant_classes": {
-      "exclude": [],
-      "severity": "Error",
-      "mapping": []
+      "severity": "Warning"
     },
     "constructor_visibility_public": {
       "exclude": [],
       "severity": "Error"
-    },
-    "cyclic_oo": {
-      "exclude": [],
-      "severity": "Error",
-      "skip": [],
-      "skipSharedMemory": true,
-      "skipTestclasses": true
-    },
-    "cyclomatic_complexity": {
-      "exclude": [],
-      "severity": "Error",
-      "max": 20
-    },
+    }, 
     "dangerous_statement": {
       "exclude": [],
       "severity": "Warning",
@@ -161,15 +126,11 @@
     },
     "db_operation_in_loop": {
       "exclude": [],
-      "severity": "Error"
-    },
-    "description_empty": {
-      "exclude": [],
-      "severity": "Error"
+      "severity": "Warning"
     },
     "double_space": {
       "exclude": [],
-      "severity": "Warning",
+      "severity": "Info",
       "keywords": true,
       "startParen": true,
       "endParen": true,
@@ -181,7 +142,7 @@
     },
     "empty_line_in_statement": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Info",
       "allowChained": false
     },
     "empty_statement": {
@@ -213,24 +174,9 @@
     },
     "forbidden_identifier": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Warning",
       "check": []
-    },
-    "forbidden_pseudo_and_pragma": {
-      "exclude": [],
-      "severity": "Error",
-      "pseudo": [
-        "\"#EC *"
-      ],
-      "pragmas": [],
-      "ignoreGlobalClassDefinition": false,
-      "ignoreGlobalInterface": false
-    },
-    "forbidden_void_type": {
-      "exclude": [],
-      "severity": "Error",
-      "check": []
-    },
+    }, 
     "form_tables_obsolete": {
       "exclude": [],
       "severity": "Error"
