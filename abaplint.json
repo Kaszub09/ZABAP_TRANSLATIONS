@@ -79,7 +79,7 @@
       "exclude": [],
       "severity": "Error"
     },
-    {
+"check_syntax": {
   "exclude": [],
   "severity": "Error"
 },
