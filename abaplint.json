@@ -34,11 +34,6 @@
       "exclude": [],
       "severity": "Error"
     },
-    "allowed_object_types": {
-      "exclude": [],
-      "severity": "Error",
-      "allowed": []
-    },
     "ambiguous_statement": {
       "exclude": [],
       "severity": "Error"
@@ -53,8 +48,8 @@
       "break": true,
       "testSeams": true,
       "describeLines": true,
-      "exportToMemory": true,
-      "exportToDatabase": true
+      "exportToMemory": false,
+      "exportToDatabase": false
     },
     "begin_end_names": {
       "exclude": [],
@@ -71,11 +66,7 @@
     "cds_comment_style": {
       "exclude": [],
       "severity": "Error"
-    },
-    "cds_legacy_view": {
-      "exclude": [],
-      "severity": "Error"
-    },
+    }, 
     "cds_parser_error": {
       "exclude": [],
       "severity": "Error"
@@ -88,10 +79,10 @@
       "exclude": [],
       "severity": "Error"
     },
-    "check_syntax": {
-      "exclude": [],
-      "severity": "Error"
-    },
+    {
+  "exclude": [],
+  "severity": "Error"
+},
     "check_text_elements": {
       "exclude": [],
       "severity": "Info"
@@ -102,7 +93,7 @@
     }, 
     "colon_missing_space": {
       "exclude": [],
-      "severity": "Warning"
+      "severity": "Info"
     },
     "constructor_visibility_public": {
       "exclude": [],
@@ -123,10 +114,6 @@
       "deleteDynpro": true,
       "exportDynpro": true,
       "dynamicSQL": true
-    },
-    "db_operation_in_loop": {
-      "exclude": [],
-      "severity": "Warning"
     },
     "double_space": {
       "exclude": [],
@@ -170,7 +157,7 @@
     },
     "exporting": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Info"
     },
     "forbidden_identifier": {
       "exclude": [],
