@@ -314,11 +314,11 @@
     },
     "identical_contents": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Info"
     },
     "identical_descriptions": {
       "exclude": [],
-      "severity": "Warning"
+      "severity": "Info"
     },
     "identical_form_names": {
       "exclude": [],
@@ -326,33 +326,20 @@
     },
     "if_in_if": {
       "exclude": [],
-      "severity": "Error"
-    },
-    "implement_methods": {
-      "exclude": [],
-      "severity": "Error"
-    },
-    "inline_data_old_versions": {
-      "exclude": [],
-      "severity": "Error"
-    },
-    "intf_referencing_clas": {
-      "exclude": [],
-      "severity": "Error",
-      "allow": []
-    },
+      "severity": "Info"
+    },  
     "invalid_table_index": {
       "exclude": [],
       "severity": "Error"
     },
     "keep_single_parameter_on_one_line": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Info",
       "length": 120
     },
     "keyword_case": {
       "exclude": [],
-      "severity": "Warning",
+      "severity": "Info",
       "style": "upper",
       "ignoreExceptions": true,
       "ignoreLowerClassImplmentationStatement": true,
@@ -361,16 +348,7 @@
       "ignoreFunctionModuleName": false,
       "ignoreGlobalClassBoundaries": false,
       "ignoreKeywords": []
-    },
-    "line_break_style": {
-      "exclude": [],
-      "severity": "Error"
-    },
-    "line_only_punc": {
-      "exclude": [],
-      "severity": "Error",
-      "ignoreExceptions": true
-    },
+    },  
     "local_class_naming": {
       "exclude": [],
       "severity": "Error",
@@ -381,18 +359,10 @@
       "exception": "^LCX_.+$",
       "test": "^LTCL_.+$"
     },
-    "local_testclass_consistency": {
-      "exclude": [],
-      "severity": "Error"
-    },
     "main_file_contents": {
       "exclude": [],
       "severity": "Error"
-    },
-    "many_parentheses": {
-      "exclude": [],
-      "severity": "Error"
-    },
+    }, 
     "max_one_statement": {
       "exclude": [],
       "severity": "Info"
@@ -405,23 +375,11 @@
     "method_implemented_twice": {
       "exclude": [],
       "severity": "Error"
-    },
-    "method_length": {
-      "exclude": [],
-      "severity": "Error",
-      "statements": 100,
-      "errorWhenEmpty": false,
-      "ignoreTestClasses": false,
-      "checkForms": true
-    },
+    }, 
     "method_overwrites_builtin": {
       "exclude": [],
       "severity": "Error"
-    },
-    "mix_returning": {
-      "exclude": [],
-      "severity": "Error"
-    },
+    }, 
     "msag_consistency": {
       "exclude": [],
       "severity": "Error",
@@ -433,27 +391,15 @@
     },
     "nesting": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Info",
       "depth": 5
     },
     "newline_between_methods": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Info",
       "count": 3,
       "logic": "less"
-    },
-    "no_aliases": {
-      "exclude": [],
-      "severity": "Error"
-    },
-    "no_chained_assignment": {
-      "exclude": [],
-      "severity": "Error"
-    },
-    "no_external_form_calls": {
-      "exclude": [],
-      "severity": "Error"
-    },
+    }, 
     "no_prefixes": {
       "exclude": [],
       "severity": "Error",
@@ -463,10 +409,6 @@
       "types": "^TY_",
       "methodParameters": "^[ICER].?_",
       "allowIsPrefixBoolean": true
-    },
-    "nrob_consistency": {
-      "exclude": [],
-      "severity": "Error"
     },
     "object_naming": {
       "exclude": [],
@@ -541,7 +483,7 @@
     },
     "omit_parameter_name": {
       "exclude": [],
-      "severity": "Warning"
+      "severity": "Info"
     },
     "omit_preceding_zeros": {
       "exclude": [],
@@ -565,20 +507,20 @@
     },
     "pragma_style": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Info",
       "style": "upper"
     },
     "prefer_corresponding": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Info"
     },
     "prefer_inline": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Info"
     },
     "prefer_pragmas": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Info",
       "check": [
         {
           "pseudo": "#EC CI_SUBRC",
@@ -600,7 +542,7 @@
     },
     "prefer_raise_exception_new": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Info"
     },
     "prefer_returning_to_exporting": {
       "exclude": [],
@@ -622,29 +564,12 @@
         "LT",
         "LE"
       ]
-    },
-    "reduce_procedural_code": {
-      "exclude": [],
-      "severity": "Error",
-      "maxStatements": 10
-    },
-    "reduce_string_templates": {
-      "exclude": [],
-      "severity": "Error"
-    },
-    "release_idoc": {
-      "exclude": [],
-      "severity": "Error"
-    },
-    "rfc_error_handling": {
-      "exclude": [],
-      "severity": "Error"
-    },
+    }, 
     "select_performance": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Warning",
       "endSelect": true,
-      "selectStar": true,
+      "selectStar": false,
       "starOkayIfFewColumns": 10
     },
     "selection_screen_naming": {
@@ -655,18 +580,7 @@
       "ignorePatterns": [],
       "parameter": "^P_.+$",
       "selectOption": "^S_.+$"
-    },
-    "sequential_blank": {
-      "exclude": [],
-      "severity": "Error",
-      "lines": 4
-    },
-    "short_case": {
-      "exclude": [],
-      "severity": "Error",
-      "length": 1,
-      "allow": []
-    },
+    }, 
     "sicf_consistency": {
       "exclude": [],
       "severity": "Error",
@@ -682,11 +596,11 @@
     },
     "space_before_colon": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Info"
     },
     "space_before_dot": {
       "exclude": [],
-      "severity": "Warning",
+      "severity": "Info",
       "ignoreGlobalDefinition": true,
       "ignoreExceptions": true
     },
@@ -700,11 +614,11 @@
     },
     "start_at_tab": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Info"
     },
     "static_call_via_instance": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Info",
       "allowInTestclassIncludes": false
     },
     "strict_sql": {
@@ -717,13 +631,9 @@
     },
     "superfluous_value": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Info"
     },
     "sy_modification": {
-      "exclude": [],
-      "severity": "Error"
-    },
-    "tabl_enhancement_category": {
       "exclude": [],
       "severity": "Error"
     },
@@ -740,19 +650,13 @@
       "severity": "Error",
       "pattern": "^T[T]{0,1}_.+$"
     },
-    "uncaught_exception": {
-      "exclude": [],
-      "severity": "Error",
-      "reportDynamic": false,
-      "reportNoCheck": false
-    },
     "unknown_types": {
       "exclude": [],
       "severity": "Error"
     },
     "unnecessary_pragma": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Info",
       "allowNoTextGlobal": false
     },
     "unnecessary_return": {
@@ -765,24 +669,24 @@
     },
     "unsecure_fae": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Warning"
     },
     "unused_ddic": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Info"
     },
     "unused_methods": {
       "exclude": [],
-      "severity": "Warning"
+      "severity": "Info"
     },
     "unused_types": {
       "exclude": [],
-      "severity": "Error",
+      "severity": "Info",
       "skipNames": []
     },
     "unused_variables": {
       "exclude": [],
-      "severity": "Warning",
+      "severity": "Info",
       "skipNames": ["c_version"],
       "skipAbstract": false
     },
@@ -804,15 +708,11 @@
     },
     "when_others_last": {
       "exclude": [],
-      "severity": "Error"
+      "severity": "Info"
     },
     "whitespace_end": {
       "exclude": [],
-      "severity": "Error"
-    },
-    "xml_consistency": {
-      "exclude": [],
-      "severity": "Error"
+      "severity": "Info"
     }
   }
 }
