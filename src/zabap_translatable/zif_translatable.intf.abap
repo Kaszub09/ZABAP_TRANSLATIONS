@@ -16,9 +16,13 @@ INTERFACE zif_translatable PUBLIC.
         WITH NON-UNIQUE SORTED KEY id_only COMPONENTS text_id.
 
   METHODS:
+    "! <p class="shorttext synchronized" lang="en">Existing texts are re-read and synchronized to SAP</p>
     read_language IMPORTING sap_lang TYPE sy-langu,
+    "! <p class="shorttext synchronized" lang="en">Returns all texts read and/or modified</p>
     get_all_texts RETURNING VALUE(texts) TYPE tt_text,
+    "! @parameter new_texts | <p class="shorttext synchronized" lang="en">Texts with different object type/name are skipped</p>
     modify_texts IMPORTING new_texts TYPE tt_text,
+    "! <p class="shorttext synchronized" lang="en">Save read and/or modified texts in database</p>
     save_modified_texts IMPORTING sap_lang TYPE sy-langu.
 
   DATA:

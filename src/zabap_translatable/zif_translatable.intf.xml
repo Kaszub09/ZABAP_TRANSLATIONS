@@ -10,6 +10,23 @@
     <STATE>1</STATE>
     <UNICODE>X</UNICODE>
    </VSEOINTERF>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>GET_ALL_TEXTS</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Returns all texts read and/or modified</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>READ_LANGUAGE</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Existing texts are re-read and synchronized to SAP</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>SAVE_MODIFIED_TEXTS</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Save read and/or modified texts in database</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
   </asx:values>
  </asx:abap>
 </abapGit>

@@ -16,7 +16,11 @@ CLASS ltcl_translatable_messages DEFINITION FINAL FOR TESTING DURATION SHORT RIS
       read_text_in_multiple_lang FOR TESTING,
       mock_texts_read_in_polish,
       modify_texts FOR TESTING,
-      save_modified_in_db FOR TESTING.
+      save_modified_in_db IMPORTING en TYPE abap_bool DEFAULT abap_true pl TYPE abap_bool DEFAULT abap_true,
+      verify_lxe_log_after_save FOR TESTING,
+      verify_t100u_en_after_save FOR TESTING,
+      verify_t100u_pl_after_save FOR TESTING,
+      verify_t100_after_save FOR TESTING.
 
     DATA:
         cut TYPE REF TO zif_translatable.
@@ -94,19 +98,78 @@ CLASS ltcl_translatable_messages IMPLEMENTATION.
   METHOD save_modified_in_db.
     cut->read_language( c_lang_en ).
     DATA(new_texts) = VALUE zif_translatable=>tt_text( object_name = cut->object_name object_type = cut->object_type
-        ( text_id = '001' translations = VALUE #( ( sap_lang = c_lang_en content = 'Modified' )
-                                                  ( sap_lang = c_lang_pl content = 'New in another lang' ) ) ) ).
+        ( text_id = '001' translations = VALUE #( ( sap_lang = c_lang_en content = 'Modified' ) ) )
+        ( text_id = '002' translations = VALUE #( ( sap_lang = c_lang_pl content = 'New in another lang' ) ) ) ).
     cut->modify_texts( new_texts ).
 
-    cut->save_modified_texts( c_lang_en ).
-    cut->save_modified_texts( c_lang_pl ).
+    IF en = abap_true.
+      cut->save_modified_texts( c_lang_en ).
+    ENDIF.
+    IF en = abap_true.
+      cut->save_modified_texts( c_lang_pl ).
+    ENDIF.
+  ENDMETHOD.
 
-    SELECT * FROM t100 WHERE arbgb = @c_test_msg_class INTO TABLE @DATA(t100_table).
+  METHOD verify_lxe_log_after_save.
+    save_modified_in_db( ).
+    "001
+    SELECT SINGLE * FROM lxe_log
+    WHERE targlng = @c_lang_en AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS001'
+        AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy1).
+    cl_abap_unit_assert=>assert_subrc( exp = 0 msg = |Change log for MSG 001 in EN not found| ).
 
-    cl_abap_unit_assert=>assert_table_contains( table = t100_table
-        line = VALUE t100( sprsl = c_lang_en arbgb = c_test_msg_class msgnr = '001' text =  'Modified' ) ).
-    cl_abap_unit_assert=>assert_table_contains( table = t100_table
-        line = VALUE t100( sprsl = c_lang_pl arbgb = c_test_msg_class msgnr = '001' text =  'New in another lang' ) ).
+    SELECT SINGLE * FROM lxe_log
+    WHERE targlng = @c_lang_pl AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS001'
+        AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy3).
+    cl_abap_unit_assert=>assert_subrc( exp = 4 msg = |Change log for MSG 001 in PL not expected| ).
+
+    "002
+    SELECT SINGLE * FROM lxe_log
+    WHERE targlng = @c_lang_en AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS002'
+        AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy2).
+    cl_abap_unit_assert=>assert_subrc( exp = 0 msg = |Change log for MSG 002 in EN not found| ).
+
+    SELECT SINGLE * FROM lxe_log
+    WHERE targlng = @c_lang_pl AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS002'
+        AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy4).
+    cl_abap_unit_assert=>assert_subrc( exp = 0 msg = |Change log for MSG 002 in PL not found| ).
+  ENDMETHOD.
+
+  METHOD verify_t100_after_save.
+    SELECT * FROM t100 WHERE arbgb = @c_test_msg_class INTO TABLE @DATA(t100_exp).
+
+    t100_exp[ sprsl = c_lang_en arbgb = c_test_msg_class msgnr = '001' ]-text = 'Modified'.
+    DELETE t100_exp WHERE sprsl = c_lang_pl AND arbgb = c_test_msg_class AND msgnr = '002'. "Delete/Append in case it doesn't exists
+    APPEND VALUE #( sprsl = c_lang_pl arbgb = c_test_msg_class msgnr = '002' text =  'New in another lang' ) TO t100_exp.
+
+    save_modified_in_db( ).
+
+    SELECT * FROM t100 WHERE arbgb = @c_test_msg_class INTO TABLE @DATA(t100_act).
+
+    SORT: t100_exp BY sprsl msgnr, t100_act BY sprsl msgnr.
+    cl_abap_unit_assert=>assert_equals( act = t100_act exp = t100_exp ).
+  ENDMETHOD.
+
+  METHOD verify_t100u_en_after_save.
+    SELECT * FROM t100u WHERE arbgb = @c_test_msg_class INTO TABLE @DATA(t100u_exp).
+    t100u_exp[ arbgb = c_test_msg_class msgnr = '001' ]-name = sy-uname.
+    t100u_exp[ arbgb = c_test_msg_class msgnr = '001' ]-datum = sy-datum.
+    t100u_exp[ arbgb = c_test_msg_class msgnr = '002' ]-name = sy-uname.
+    t100u_exp[ arbgb = c_test_msg_class msgnr = '002' ]-datum = sy-datum.
+
+    save_modified_in_db( pl = abap_false ).
+
+    SELECT * FROM t100u WHERE arbgb = @c_test_msg_class INTO TABLE @DATA(t100u_act).
+    cl_abap_unit_assert=>assert_equals( act = t100u_act exp = t100u_exp ).
+  ENDMETHOD.
+
+  METHOD verify_t100u_pl_after_save.
+    SELECT * FROM t100u WHERE arbgb = @c_test_msg_class INTO TABLE @DATA(t100u_exp).
+
+    save_modified_in_db( en = abap_false ).
+
+    SELECT * FROM t100u WHERE arbgb = @c_test_msg_class INTO TABLE @DATA(t100u_act).
+    cl_abap_unit_assert=>assert_equals( act = t100u_act exp = t100u_exp ).
   ENDMETHOD.
 
 ENDCLASS.
