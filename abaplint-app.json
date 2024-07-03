@@ -1,10 +1,10 @@
 {
 "configurations": {
-    "conf1": {
-      "filename": "./abaplint.json"
+    "default": {
+      "filename": "./abaplint_default.json"
     },
-    "conf2": {
-      "filename": "./lint2.json"
+    "nonessential": {
+      "filename": "./abaplint_nonessential.json"
     }
   }
 }

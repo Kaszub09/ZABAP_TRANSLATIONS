@@ -1,0 +1,230 @@
+{
+  "global": {
+    "files": "/src/**/*.*", 
+    "exclude": [],
+    "noIssues": [],
+    "skipGeneratedBOPFInterfaces": false,
+    "skipGeneratedFunctionGroups": false,
+    "skipGeneratedGatewayClasses": false,
+    "skipGeneratedPersistentClasses": false,
+    "skipGeneratedProxyClasses": false,
+    "skipGeneratedProxyInterfaces": false,
+    "useApackDependencies": false,
+    "skipIncludesWithoutMain": false
+  },
+  "dependencies": [
+    {
+      "url": "https://github.com/abaplint/deps",
+      "folder": "/deps",
+      "files": "/src/**/*.*"
+    }
+  ],
+  "syntax": {
+    "version": "v750",
+    "errorNamespace": "^(Z|Y|LCL_|TY_|LIF_)",
+    "globalConstants": [],
+    "globalMacros": []
+  },
+  "rules": {
+    "check_text_elements": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "colon_missing_space": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "double_space": {
+      "exclude": [],
+      "severity": "Info",
+      "keywords": true,
+      "startParen": true,
+      "endParen": true,
+      "afterColon": true
+    },
+    "empty_line_in_statement": {
+      "exclude": [],
+      "severity": "Info",
+      "allowChained": false
+    },
+    "empty_statement": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "empty_structure": {
+      "exclude": [],
+      "severity": "Info",
+      "loop": true,
+      "if": true,
+      "while": true,
+      "case": true,
+      "select": true,
+      "do": true,
+      "at": true,
+      "try": true,
+      "when": true
+    },
+    "exporting": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "forbidden_identifier": {
+      "exclude": [],
+      "severity": "Warning",
+      "check": []
+    }, 
+    "identical_contents": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "identical_descriptions": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "if_in_if": {
+      "exclude": [],
+      "severity": "Info"
+    },  
+    "keep_single_parameter_on_one_line": {
+      "exclude": [],
+      "severity": "Info",
+      "length": 120
+    },
+    "keyword_case": {
+      "exclude": [],
+      "severity": "Info",
+      "style": "upper",
+      "ignoreExceptions": true,
+      "ignoreLowerClassImplmentationStatement": true,
+      "ignoreGlobalClassDefinition": false,
+      "ignoreGlobalInterface": false,
+      "ignoreFunctionModuleName": false,
+      "ignoreGlobalClassBoundaries": false,
+      "ignoreKeywords": []
+    },  
+    "max_one_statement": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "newline_between_methods": {
+      "exclude": [],
+      "severity": "Info",
+      "count": 3,
+      "logic": "less"
+    }, 
+    "omit_parameter_name": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "pragma_style": {
+      "exclude": [],
+      "severity": "Info",
+      "style": "upper"
+    },
+    "prefer_corresponding": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "prefer_inline": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "prefer_pragmas": {
+      "exclude": [],
+      "severity": "Info",
+      "check": [
+        {
+          "pseudo": "#EC CI_SUBRC",
+          "pragma": "SUBRC_OK"
+        },
+        {
+          "pseudo": "#EC NEEDED",
+          "pragma": "NEEDED"
+        },
+        {
+          "pseudo": "#EC NOTEXT",
+          "pragma": "NO_TEXT"
+        },
+        {
+          "pseudo": "#EC NO_HANDLER",
+          "pragma": "NO_HANDLER"
+        }
+      ]
+    },
+    "prefer_raise_exception_new": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "prefer_returning_to_exporting": {
+      "exclude": [],
+      "severity": "Error"
+    },
+    "prefer_xsdbool": {
+      "exclude": [],
+      "severity": "Error"
+    },
+    "space_before_colon": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "space_before_dot": {
+      "exclude": [],
+      "severity": "Info",
+      "ignoreGlobalDefinition": true,
+      "ignoreExceptions": true
+    },
+    "start_at_tab": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "static_call_via_instance": {
+      "exclude": [],
+      "severity": "Info",
+      "allowInTestclassIncludes": false
+    },
+    "superfluous_value": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "unnecessary_pragma": {
+      "exclude": [],
+      "severity": "Info",
+      "allowNoTextGlobal": false
+    },
+    "unused_ddic": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "unused_methods": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "unused_types": {
+      "exclude": [],
+      "severity": "Info",
+      "skipNames": []
+    },
+    "unused_variables": {
+      "exclude": [],
+      "severity": "Info",
+      "skipNames": ["c_version"],
+      "skipAbstract": false
+    },
+    "use_line_exists": {
+      "exclude": [],
+      "severity": "Error"
+    },
+    "use_new": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "when_others_last": {
+      "exclude": [],
+      "severity": "Info"
+    },
+    "whitespace_end": {
+      "exclude": [],
+      "severity": "Info"
+    }
+  }
+}
