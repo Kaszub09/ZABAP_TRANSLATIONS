@@ -489,12 +489,6 @@
       "exclude": [],
       "severity": "Error"
     },
-    "modify_only_own_db_tables": {
-      "exclude": [],
-      "severity": "Error",
-      "reportDynamic": true,
-      "ownTables": "^[yz]"
-    },
     "msag_consistency": {
       "exclude": [],
       "severity": "Error",
