@@ -113,23 +113,23 @@ CLASS ltcl_translatable_messages IMPLEMENTATION.
   METHOD verify_lxe_log_after_save.
     save_modified_in_db( ).
     "001
-    SELECT SINGLE * FROM lxe_log
+    SELECT SINGLE @abap_true FROM lxe_log
     WHERE targlng = @c_lang_en AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS001'
         AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy1).
     cl_abap_unit_assert=>assert_subrc( exp = 0 msg = |Change log for MSG 001 in EN not found| ).
 
-    SELECT SINGLE * FROM lxe_log
+    SELECT SINGLE @abap_true FROM lxe_log
     WHERE targlng = @c_lang_pl AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS001'
         AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy3).
     cl_abap_unit_assert=>assert_subrc( exp = 4 msg = |Change log for MSG 001 in PL not expected| ).
 
     "002
-    SELECT SINGLE * FROM lxe_log
+    SELECT SINGLE @abap_true FROM lxe_log
     WHERE targlng = @c_lang_en AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS002'
         AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy2).
     cl_abap_unit_assert=>assert_subrc( exp = 0 msg = |Change log for MSG 002 in EN not found| ).
 
-    SELECT SINGLE * FROM lxe_log
+    SELECT SINGLE @abap_true FROM lxe_log
     WHERE targlng = @c_lang_pl AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS002'
         AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy4).
     cl_abap_unit_assert=>assert_subrc( exp = 0 msg = |Change log for MSG 002 in PL not found| ).

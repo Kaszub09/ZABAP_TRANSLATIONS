@@ -16,7 +16,7 @@ CLASS zcl_translatable_messages DEFINITION
     METHODS:
       get_text IMPORTING text_id TYPE string RETURNING VALUE(text) TYPE REF TO zif_translatable=>t_text,
       modify_translation IMPORTING sap_lang TYPE syst_langu content TYPE textpooltx
-                         CHANGING  translations TYPE zif_translatable=>tt_translation,
+                         CHANGING translations TYPE zif_translatable=>tt_translation,
       update_translation_log IMPORTING base TYPE tt_t100,
       update_last_changed IMPORTING base TYPE tt_t100.
 
@@ -97,6 +97,10 @@ CLASS zcl_translatable_messages IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD update_last_changed.
+    IF lines( base ) = 0.
+      RETURN.
+    ENDIF.
+
     SELECT * FROM t100u
     FOR ALL ENTRIES IN @base
     WHERE arbgb = @base-arbgb AND msgnr = @base-msgnr
