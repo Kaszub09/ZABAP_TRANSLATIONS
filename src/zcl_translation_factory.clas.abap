@@ -28,6 +28,8 @@ CLASS zcl_translation_factory IMPLEMENTATION.
         translatable = NEW zcl_translatable_textpool( object_name ).
       WHEN zcl_translation_globals=>c_subcomponent-screen_texts.
         translatable = NEW zcl_translatable_screen_el( object_name ).
+      WHEN zcl_translation_globals=>c_subcomponent-menu_texts.
+        translatable = NEW zcl_translatable_menu_el( object_name ).
       WHEN OTHERS. "TODO error handling
     ENDCASE.
   ENDMETHOD.

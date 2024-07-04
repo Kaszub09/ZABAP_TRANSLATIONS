@@ -23,7 +23,7 @@ CLASS ltcl_translatable_textpool DEFINITION FINAL FOR TESTING DURATION SHORT RIS
       save_modified_in_db IMPORTING en TYPE abap_bool DEFAULT abap_true pl TYPE abap_bool DEFAULT abap_true,
       verify_lxe_log_after_save FOR TESTING,
       verify_textpools_after_save FOR TESTING,
-      verify_textpool IMPORTING textpool TYPE tt_textpool sap_lang TYPE sy-langu.
+      check_textpool IMPORTING textpool TYPE tt_textpool sap_lang TYPE sy-langu.
 
     DATA:
         cut TYPE REF TO zif_translatable.
@@ -165,11 +165,11 @@ CLASS ltcl_translatable_textpool IMPLEMENTATION.
     APPEND VALUE #( id = 'S' key = 'P_REF' entry = 'D       .' ) TO expected_pl.
 
     "Verify
-    verify_textpool( textpool = expected_en sap_lang = c_lang_en ).
-    verify_textpool( textpool = expected_pl sap_lang = c_lang_pl ).
+    check_textpool( textpool = expected_en sap_lang = c_lang_en ).
+    check_textpool( textpool = expected_pl sap_lang = c_lang_pl ).
   ENDMETHOD.
 
-  METHOD verify_textpool.
+  METHOD check_textpool.
     DATA(textpool_exp) = textpool.
     DATA textpool_act TYPE tt_textpool.
     READ TEXTPOOL c_test_prog INTO textpool_act LANGUAGE sap_lang.

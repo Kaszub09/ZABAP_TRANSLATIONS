@@ -23,6 +23,7 @@ CLASS zcl_translatable_program IMPLEMENTATION.
     zif_translatable~object_type = zcl_translation_globals=>c_object_type-program.
     add_subcomponent( zcl_translation_globals=>c_subcomponent-textpool ).
     add_subcomponent( zcl_translation_globals=>c_subcomponent-screen_texts ).
+    add_subcomponent( zcl_translation_globals=>c_subcomponent-menu_texts ).
   ENDMETHOD.
 
   METHOD add_subcomponent.

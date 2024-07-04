@@ -1,14 +1,12 @@
-CLASS zcl_translatable_textpool DEFINITION
- PUBLIC
-  FINAL
-  CREATE PUBLIC .
+CLASS zcl_translatable_textpool DEFINITION PUBLIC FINAL CREATE PUBLIC.
 
   PUBLIC SECTION.
     INTERFACES:
       zif_translatable.
+
     METHODS:
       constructor IMPORTING program TYPE sobj_name.
-  PROTECTED SECTION.
+
   PRIVATE SECTION.
     METHODS:
       get_text_id IMPORTING id TYPE textpoolid key TYPE textpoolky RETURNING VALUE(text_id) TYPE string,
@@ -17,11 +15,14 @@ CLASS zcl_translatable_textpool DEFINITION
       modify_translation IMPORTING sap_lang TYPE syst_langu content TYPE textpooltx
                          CHANGING  translations TYPE zif_translatable=>tt_translation,
       update_translation_log IMPORTING sap_lang TYPE syst_langu.
+
     CONSTANTS:
       BEGIN OF c_sel_text,
         no_ref_prefix TYPE c LENGTH 8 VALUE '        ',
         ref_whole     TYPE c LENGTH 9 VALUE 'D       .',
-      END OF c_sel_text.
+      END OF c_sel_text,
+      c_lxe_type TYPE lxeobjtype VALUE 'RPT4'.
+
     DATA:
       texts    TYPE zif_translatable=>tt_text,
       sub_type TYPE string.
@@ -36,6 +37,7 @@ CLASS zcl_translatable_textpool IMPLEMENTATION.
 
   METHOD zif_translatable~read_language.
     DATA textpool TYPE STANDARD TABLE OF textpool WITH EMPTY KEY.
+
     READ TEXTPOOL zif_translatable~object_name INTO textpool LANGUAGE sap_lang.
 
     LOOP AT textpool REFERENCE INTO DATA(textpool_text).
@@ -109,9 +111,8 @@ CLASS zcl_translatable_textpool IMPLEMENTATION.
     SELECT SINGLE custmnr FROM lxe_custmnr INTO @DATA(custmnr).
     GET TIME.
 
-    DATA(lxe_log_entry) = VALUE lxe_log( custmnr = custmnr objtype = 'RPT4' objname = zif_translatable~object_name
+    DATA(lxe_log_entry) = VALUE lxe_log( custmnr = custmnr objtype = c_lxe_type objname = zif_translatable~object_name
         targlng = sap_lang uname = sy-uname udate = sy-datum utime = sy-uzeit ).
     MODIFY lxe_log FROM @lxe_log_entry.
   ENDMETHOD.
-
 ENDCLASS.

@@ -1,14 +1,12 @@
-CLASS zcl_translatable_messages DEFINITION
- PUBLIC
-  FINAL
-  CREATE PUBLIC .
+CLASS zcl_translatable_messages DEFINITION PUBLIC FINAL CREATE PUBLIC.
 
   PUBLIC SECTION.
     INTERFACES:
       zif_translatable.
+
     METHODS:
       constructor IMPORTING message_class TYPE sobj_name.
-  PROTECTED SECTION.
+
   PRIVATE SECTION.
     TYPES:
         tt_t100 TYPE STANDARD TABLE OF t100 WITH EMPTY KEY.
@@ -20,12 +18,13 @@ CLASS zcl_translatable_messages DEFINITION
       update_translation_log IMPORTING base TYPE tt_t100,
       update_last_changed IMPORTING base TYPE tt_t100.
 
+    CONSTANTS:
+        c_lxe_type TYPE lxeobjtype VALUE 'MESS'.
+
     DATA:
       texts       TYPE zif_translatable=>tt_text,
       master_lang TYPE sy-langu.
 ENDCLASS.
-
-
 
 CLASS zcl_translatable_messages IMPLEMENTATION.
   METHOD constructor.
@@ -121,11 +120,10 @@ CLASS zcl_translatable_messages IMPLEMENTATION.
     GET TIME.
 
     LOOP AT base REFERENCE INTO DATA(base_row).
-      APPEND VALUE #( custmnr = custmnr targlng = base_row->sprsl objtype = 'MESS'
+      APPEND VALUE #( custmnr = custmnr targlng = base_row->sprsl objtype = c_lxe_type
         objname = |{ base_row->arbgb WIDTH = 20 }{ base_row->msgnr }| uname = sy-uname udate = sy-datum utime = sy-uzeit ) TO lxe_log_tab.
     ENDLOOP.
 
     MODIFY lxe_log FROM TABLE @lxe_log_tab.
   ENDMETHOD.
-
 ENDCLASS.

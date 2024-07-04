@@ -51,10 +51,11 @@ FORM export.
   SELECT FROM tadir
   FIELDS object  AS object_type, obj_name AS object_name
   WHERE devclass IN @s_packag
-    AND ( ( object = @zcl_translation_globals=>c_object_type-program AND obj_name IN @s_prog and @( lines( s_prog[] ) ) > 0 )
-       OR ( object = @zcl_translation_globals=>c_object_type-class AND obj_name IN @s_class and @( lines( s_class[] ) ) > 0 )
-       OR ( object = @zcl_translation_globals=>c_object_type-function_group AND obj_name IN @s_fungr and @( lines( s_fungr[] ) ) > 0 )
-       OR ( object = @zcl_translation_globals=>c_object_type-message_class AND obj_name IN @s_msgcls and @( lines( s_msgcls[] ) ) > 0 ) )
+    AND ( ( devclass IN @s_packag AND @( lines( s_packag[] ) ) > 0 )
+       OR ( object = @zcl_translation_globals=>c_object_type-program AND obj_name IN @s_prog AND @( lines( s_prog[] ) ) > 0 )
+       OR ( object = @zcl_translation_globals=>c_object_type-class AND obj_name IN @s_class AND @( lines( s_class[] ) ) > 0 )
+       OR ( object = @zcl_translation_globals=>c_object_type-function_group AND obj_name IN @s_fungr AND @( lines( s_fungr[] ) ) > 0 )
+       OR ( object = @zcl_translation_globals=>c_object_type-message_class AND obj_name IN @s_msgcls AND @( lines( s_msgcls[] ) ) > 0 ) )
   INTO TABLE @DATA(objects).
 
   DATA(translation_objects) = NEW zcl_translation_objects( languages ).
