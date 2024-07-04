@@ -26,6 +26,7 @@
     "globalMacros": []
   },
   "rules": {
+    "downport": true,
     "7bit_ascii": {
       "exclude": [],
       "severity": "Error"
