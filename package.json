@@ -4,6 +4,7 @@
   "scripts": {
     "test": "npm run eslint && npm run abaplint",
     "unit": "npm run build && echo RUNNING && node output/index.mjs",
+    "build": "rm -rf output && abap_transpile test/abap_transpile.json",
     "coverage": "npm run unit && c8 node output/index.mjs && c8 report --reporter=html"
   },
   "repository": {
