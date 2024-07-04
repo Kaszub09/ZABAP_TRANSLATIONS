@@ -19,7 +19,7 @@
     "keywords": ["return", "in", "class", "arguments"],
     "extraSetup": "../setup.mjs",
     "skip": [
-      {"object": "ZCX_ABAPGIT_EXCEPTION", "class": "ltcl_get_t100_longtext", "method": "test01", "note": "uses MSAG from database"},
+      {"object": "ZCX_ABAPGIT_EXCEPTION", "class": "ltcl_get_t100_longtext", "method": "test01", "note": "uses MSAG from database"}
     ]
   }
 }
