@@ -20,13 +20,12 @@
     }
   ],
   "syntax": {
-    "version": "v702",
+    "version": "v750",
     "errorNamespace": "^(Z|Y|LCL_|TY_|LIF_)",
     "globalConstants": [],
     "globalMacros": []
   },
   "rules": {
-    "downport": true,
     "check_text_elements": {
       "exclude": [],
       "severity": "Info"
