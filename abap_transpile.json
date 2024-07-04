@@ -1,6 +1,6 @@
 {
-  "input_folder": "{src}",
-  "input_filter": [ "*" ],
+  "input_folder": "{src,deps}",
+  "input_filter": [ "src/*" ],
   "output_folder": "output",
   "libs": [
     {
