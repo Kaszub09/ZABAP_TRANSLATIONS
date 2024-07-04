@@ -22,11 +22,11 @@ CLASS ltcl_translatable_textpool DEFINITION FINAL FOR TESTING DURATION SHORT RIS
       modify_texts FOR TESTING,
       save_modified_in_db IMPORTING en TYPE abap_bool DEFAULT abap_true pl TYPE abap_bool DEFAULT abap_true,
       verify_lxe_log_after_save FOR TESTING,
-      verify_textpool_after_save FOR TESTING,
+      verify_textpools_after_save FOR TESTING,
       verify_textpool IMPORTING textpool TYPE tt_textpool sap_lang TYPE sy-langu.
 
     DATA:
-        cut TYPE REF TO zif_translatable_subcomponent.
+        cut TYPE REF TO zif_translatable.
 ENDCLASS.
 
 
@@ -41,8 +41,8 @@ CLASS ltcl_translatable_textpool IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD read_text_in_one_language.
-    cut->zif_translatable~read_language( c_lang_en ).
-    DATA(read_texts) = cut->zif_translatable~get_all_texts( ).
+    cut->read_language( c_lang_en ).
+    DATA(read_texts) = cut->get_all_texts( ).
 
     "Texts
     cl_abap_unit_assert=>assert_equals( act = read_texts[ KEY id_only text_id = 'TEXTPOOL|I|001' ]-translations[ sap_lang = c_lang_en ]-content
@@ -65,9 +65,9 @@ CLASS ltcl_translatable_textpool IMPLEMENTATION.
 
   METHOD read_text_in_multiple_lang.
     mock_texts_read_in_polish( ).
-    cut->zif_translatable~read_language( c_lang_en ).
+    cut->read_language( c_lang_en ).
 
-    DATA(read_texts) = cut->zif_translatable~get_all_texts( ).
+    DATA(read_texts) = cut->get_all_texts( ).
 
     LOOP AT read_texts REFERENCE INTO DATA(read_text).
       cl_abap_unit_assert=>assert_equals( act = lines( read_text->translations )
@@ -78,7 +78,7 @@ CLASS ltcl_translatable_textpool IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD mock_texts_read_in_polish.
-    cut->zif_translatable~read_language( c_lang_en ).
+    cut->read_language( c_lang_en ).
     DATA(cut_casted) = CAST zcl_translatable_textpool( cut ).
 
     LOOP AT cut_casted->texts REFERENCE INTO DATA(text).
@@ -88,17 +88,17 @@ CLASS ltcl_translatable_textpool IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD modify_texts.
-    cut->zif_translatable~read_language( c_lang_en ).
+    cut->read_language( c_lang_en ).
 
-    DATA(new_texts) = VALUE zif_translatable=>tt_text( object_name = cut->zif_translatable~object_name
-                                                       object_type = cut->zif_translatable~object_type
+    DATA(new_texts) = VALUE zif_translatable=>tt_text( object_name = cut->object_name
+                                                       object_type = cut->object_type
         ( text_id = 'TEXTPOOL|I|001' translations = VALUE #( ( sap_lang = c_lang_pl content = 'New in another lang' ) ) )
         ( text_id = 'TEXTPOOL|I|002' translations = VALUE #( ( sap_lang = c_lang_en content = 'Modified' ) ) )
         ( text_id = 'TEXTPOOL|I|999' translations = VALUE #( ( sap_lang = c_lang_en content = 'New' ) ) ) ).
 
-    cut->zif_translatable~modify_texts( new_texts ).
+    cut->modify_texts( new_texts ).
     "--------------------------------------------------
-    DATA(current_texts) = cut->zif_translatable~get_all_texts( ).
+    DATA(current_texts) = cut->get_all_texts( ).
 
     cl_abap_unit_assert=>assert_table_contains( line = new_texts[ 2 ] table = current_texts msg = |Text 002 not modified| ).
     cl_abap_unit_assert=>assert_table_contains( line = new_texts[ 3 ] table = current_texts msg = |Text 999 not inserted| ).
@@ -110,21 +110,23 @@ CLASS ltcl_translatable_textpool IMPLEMENTATION.
 
 
   METHOD save_modified_in_db.
-    cut->zif_translatable~read_language( c_lang_en ).
-    DATA(new_texts) = VALUE zif_translatable=>tt_text( object_name = cut->zif_translatable~object_name
-                                                       object_type = cut->zif_translatable~object_type
+    cut->read_language( c_lang_en ).
+    DATA(new_texts) = VALUE zif_translatable=>tt_text( object_name = cut->object_name
+                                                       object_type = cut->object_type
+        "EN
         ( text_id = 'TEXTPOOL|I|001' translations = VALUE #( ( sap_lang = c_lang_en content = 'Modified' ) ) )
         ( text_id = 'TEXTPOOL|I|999' translations = VALUE #( ( sap_lang = c_lang_en content = 'New' ) ) )
         ( text_id = 'TEXTPOOL|S|P_NO_REF' translations = VALUE #( ( sap_lang = c_lang_en content = 'Modified P_NO_REF' ) ) )
+        "PL
         ( text_id = 'TEXTPOOL|I|002' translations = VALUE #( ( sap_lang = c_lang_pl content = 'New in another lang' ) ) )
         ( text_id = 'TEXTPOOL|S|P_REF' translations = VALUE #( ( sap_lang = c_lang_pl content = 'D       .' ) ) ) ).
-    cut->zif_translatable~modify_texts( new_texts ).
+    cut->modify_texts( new_texts ).
 
     IF en = abap_true.
-      cut->zif_translatable~save_modified_texts( c_lang_en ).
+      cut->save_modified_texts( c_lang_en ).
     ENDIF.
     IF en = abap_true.
-      cut->zif_translatable~save_modified_texts( c_lang_pl ).
+      cut->save_modified_texts( c_lang_pl ).
     ENDIF.
   ENDMETHOD.
 
@@ -143,7 +145,7 @@ CLASS ltcl_translatable_textpool IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD verify_textpool_after_save.
+  METHOD verify_textpools_after_save.
     DATA:
       textpool_en TYPE tt_textpool,
       textpool_pl TYPE tt_textpool.
@@ -172,8 +174,7 @@ CLASS ltcl_translatable_textpool IMPLEMENTATION.
     DATA textpool_act TYPE tt_textpool.
     READ TEXTPOOL c_test_prog INTO textpool_act LANGUAGE sap_lang.
 
-    "Clear length field - when you upload translations it's adjusted automatically - even if translation is longer than max. of original
-    "so no need to compare
+    "Clear length field - no need to compare, adjusted automatically when uploading new - even if translation is longer than max. of original
     LOOP AT textpool_exp REFERENCE INTO DATA(textpool_exp_row).
       textpool_exp_row->length = 0.
     ENDLOOP.
@@ -182,7 +183,7 @@ CLASS ltcl_translatable_textpool IMPLEMENTATION.
     ENDLOOP.
 
     SORT: textpool_exp BY id key, textpool_act BY id key.
-    cl_abap_unit_assert=>assert_equals( exp = textpool_exp act = textpool_act msg = |Different textpool in { sap_lang }| ).
+    cl_abap_unit_assert=>assert_equals( exp = textpool_exp act = textpool_act msg = |Different textpool in language { sap_lang }| ).
   ENDMETHOD.
 
 ENDCLASS.

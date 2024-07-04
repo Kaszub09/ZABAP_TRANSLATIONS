@@ -4,7 +4,7 @@ CLASS zcl_translation_factory DEFINITION PUBLIC FINAL CREATE PUBLIC.
     CLASS-METHODS:
       create_translatable IMPORTING object_type TYPE trobjtype object_name TYPE sobj_name RETURNING VALUE(translatable) TYPE REF TO zif_translatable,
       create_translatable_sub IMPORTING sub_type TYPE string object_name TYPE sobj_name
-                              RETURNING VALUE(translatable) TYPE REF TO zif_translatable_subcomponent.
+                              RETURNING VALUE(translatable) TYPE REF TO zif_translatable.
 ENDCLASS.
 
 CLASS zcl_translation_factory IMPLEMENTATION.

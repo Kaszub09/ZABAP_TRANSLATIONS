@@ -5,14 +5,14 @@ CLASS zcl_translatable_textpool DEFINITION
 
   PUBLIC SECTION.
     INTERFACES:
-      zif_translatable_subcomponent.
+      zif_translatable.
     METHODS:
       constructor IMPORTING program TYPE sobj_name.
   PROTECTED SECTION.
   PRIVATE SECTION.
     METHODS:
       get_text_id IMPORTING id TYPE textpoolid key TYPE textpoolky RETURNING VALUE(text_id) TYPE string,
-      parse_text_id IMPORTING text_id TYPE string EXPORTING id TYPE textpoolid key TYPE textpoolky,
+      parse_text_id IMPORTING text_id TYPE string EXPORTING sub_type TYPE string id TYPE textpoolid key TYPE textpoolky,
       get_text IMPORTING text_id TYPE string RETURNING VALUE(text) TYPE REF TO zif_translatable=>t_text,
       modify_translation IMPORTING sap_lang TYPE syst_langu content TYPE textpooltx
                          CHANGING  translations TYPE zif_translatable=>tt_translation,
@@ -23,16 +23,15 @@ CLASS zcl_translatable_textpool DEFINITION
         ref_whole     TYPE c LENGTH 9 VALUE 'D       .',
       END OF c_sel_text.
     DATA:
-      texts        TYPE zif_translatable=>tt_text.
+      texts    TYPE zif_translatable=>tt_text,
+      sub_type TYPE string.
 ENDCLASS.
-
-
 
 CLASS zcl_translatable_textpool IMPLEMENTATION.
   METHOD constructor.
     zif_translatable~object_name = program.
     zif_translatable~object_type = zcl_translation_globals=>c_object_type-program.
-    zif_translatable_subcomponent~sub_type = zcl_translation_globals=>c_subcomponent-textpool.
+    sub_type = zcl_translation_globals=>c_subcomponent-textpool.
   ENDMETHOD.
 
   METHOD zif_translatable~read_language.
@@ -50,16 +49,28 @@ CLASS zcl_translatable_textpool IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD get_text_id.
-    text_id = |{ zif_translatable_subcomponent~sub_type }\|{ id }\|{ key }|.
+    text_id = |{ sub_type }\|{ id }\|{ key }|.
   ENDMETHOD.
 
   METHOD parse_text_id.
-    SPLIT text_id AT '|' INTO DATA(dummy) id key.
+    SPLIT text_id AT '|' INTO sub_type id key.
   ENDMETHOD.
 
   METHOD zif_translatable~modify_texts.
-    LOOP AT new_texts REFERENCE INTO DATA(new_text).
-      zif_translatable_subcomponent~modify_text( new_text->* ).
+    LOOP AT new_texts REFERENCE INTO DATA(new_text) USING KEY text_id
+    WHERE object_type = zif_translatable~object_type AND object_name = zif_translatable~object_name.
+      parse_text_id( EXPORTING text_id = new_text->text_id IMPORTING sub_type = DATA(text_sub_type) id = DATA(id) ).
+      IF text_sub_type <> sub_type.
+        CONTINUE.
+      ENDIF.
+
+      DATA(program_text) = get_text( new_text->text_id ).
+      LOOP AT new_text->translations REFERENCE INTO DATA(new_translation).
+        DATA(content) = COND textpooltx( WHEN id = 'S' AND new_translation->content(9) <> c_sel_text-ref_whole
+            THEN |{ c_sel_text-no_ref_prefix WIDTH = 8 }{ new_translation->content }| ELSE new_translation->content ).
+        modify_translation( EXPORTING sap_lang = new_translation->sap_lang content = content
+                            CHANGING translations = program_text->translations ).
+      ENDLOOP.
     ENDLOOP.
   ENDMETHOD.
 
@@ -92,18 +103,6 @@ CLASS zcl_translatable_textpool IMPLEMENTATION.
     ENDIF.
     translation->content = content.
   ENDMETHOD.
-
-  METHOD zif_translatable_subcomponent~modify_text.
-    DATA(program_text) = get_text( new_text-text_id ).
-    parse_text_id( EXPORTING text_id = program_text->text_id IMPORTING id = DATA(id) ).
-    LOOP AT new_text-translations REFERENCE INTO DATA(new_translation).
-      DATA(content) = COND textpooltx( WHEN id = 'S' AND new_translation->content(9) <> c_sel_text-ref_whole
-          THEN |{ c_sel_text-no_ref_prefix WIDTH = 8 }{ new_translation->content }| ELSE new_translation->content ).
-      modify_translation( EXPORTING sap_lang = new_translation->sap_lang content = content
-                          CHANGING translations = program_text->translations ).
-    ENDLOOP.
-  ENDMETHOD.
-
 
   METHOD update_translation_log.
     SELECT SINGLE custmnr FROM lxe_custmnr INTO @DATA(custmnr).

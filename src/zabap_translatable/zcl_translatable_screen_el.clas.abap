@@ -5,20 +5,21 @@ CLASS zcl_translatable_screen_el DEFINITION
 
   PUBLIC SECTION.
     INTERFACES:
-      zif_translatable_subcomponent.
+      zif_translatable.
     METHODS:
       constructor IMPORTING program TYPE sobj_name.
   PROTECTED SECTION.
   PRIVATE SECTION.
     METHODS:
       get_text_id IMPORTING dynr TYPE dynpronr fldn TYPE dynfnam RETURNING VALUE(text_id) TYPE string,
-      parse_text_id IMPORTING text_id TYPE string EXPORTING dynr TYPE dynpronr fldn TYPE dynfnam,
+      parse_text_id IMPORTING text_id TYPE string EXPORTING sub_type TYPE string dynr TYPE dynpronr fldn TYPE dynfnam,
       get_text IMPORTING text_id TYPE string RETURNING VALUE(text) TYPE REF TO zif_translatable=>t_text,
       modify_translation IMPORTING sap_lang TYPE syst_langu content TYPE textpooltx
                          CHANGING  translations TYPE zif_translatable=>tt_translation..
 
     DATA:
-      texts        TYPE zif_translatable=>tt_text.
+      texts    TYPE zif_translatable=>tt_text,
+      sub_type TYPE string.
 ENDCLASS.
 
 
@@ -27,7 +28,7 @@ CLASS zcl_translatable_screen_el IMPLEMENTATION.
   METHOD constructor.
     zif_translatable~object_name = program.
     zif_translatable~object_type = zcl_translation_globals=>c_object_type-program.
-    zif_translatable_subcomponent~sub_type = zcl_translation_globals=>c_subcomponent-screen_texts.
+    sub_type = zcl_translation_globals=>c_subcomponent-screen_texts.
   ENDMETHOD.
 
   METHOD zif_translatable~read_language.
@@ -46,16 +47,25 @@ CLASS zcl_translatable_screen_el IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD get_text_id.
-    text_id = |{ zif_translatable_subcomponent~sub_type }\|{ dynr }\|{ fldn }|.
+    text_id = |{ sub_type }\|{ dynr }\|{ fldn }|.
   ENDMETHOD.
 
   METHOD parse_text_id.
-    SPLIT text_id AT '|' INTO DATA(dummy) dynr fldn.
+    SPLIT text_id AT '|' INTO sub_type dynr fldn.
   ENDMETHOD.
 
   METHOD zif_translatable~modify_texts.
     LOOP AT new_texts REFERENCE INTO DATA(new_text).
-      zif_translatable_subcomponent~modify_text( new_text->* ).
+      parse_text_id( EXPORTING text_id = new_text->text_id IMPORTING sub_type = DATA(text_sub_type) ).
+      IF text_sub_type <> sub_type.
+        CONTINUE.
+      ENDIF.
+
+      DATA(program_text) = get_text( new_text->text_id ).
+      LOOP AT new_text->translations REFERENCE INTO DATA(new_translation).
+        modify_translation( EXPORTING sap_lang = new_translation->sap_lang content = new_translation->content
+                            CHANGING translations = program_text->translations ).
+      ENDLOOP.
     ENDLOOP.
   ENDMETHOD.
 
@@ -86,14 +96,6 @@ CLASS zcl_translatable_screen_el IMPLEMENTATION.
       INSERT VALUE #( sap_lang = sap_lang ) INTO TABLE translations REFERENCE INTO translation.
     ENDIF.
     translation->content = content.
-  ENDMETHOD.
-
-  METHOD zif_translatable_subcomponent~modify_text.
-    DATA(program_text) = get_text( new_text-text_id ).
-    LOOP AT new_text-translations REFERENCE INTO DATA(new_translation).
-      modify_translation( EXPORTING sap_lang = new_translation->sap_lang content = new_translation->content
-                          CHANGING translations = program_text->translations ).
-    ENDLOOP.
   ENDMETHOD.
 
 ENDCLASS.
