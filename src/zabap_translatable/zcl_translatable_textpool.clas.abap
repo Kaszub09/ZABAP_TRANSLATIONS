@@ -92,7 +92,8 @@ CLASS zcl_translatable_textpool IMPLEMENTATION.
   METHOD get_text.
     text = REF #( texts[ KEY id_only text_id = text_id ] OPTIONAL ).
     IF NOT text IS BOUND.
-      INSERT VALUE #( object_type = zif_translatable~object_type object_name = zif_translatable~object_name text_id = text_id ) INTO TABLE texts REFERENCE INTO text.
+      INSERT VALUE #( object_type = zif_translatable~object_type object_name = zif_translatable~object_name
+        text_id = text_id ) INTO TABLE texts REFERENCE INTO text.
     ENDIF.
   ENDMETHOD.
 
