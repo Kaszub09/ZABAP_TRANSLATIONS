@@ -26,6 +26,7 @@
     "globalMacros": []
   },
   "rules": {
+    "downport": true,
     "check_text_elements": {
       "exclude": [],
       "severity": "Info"
