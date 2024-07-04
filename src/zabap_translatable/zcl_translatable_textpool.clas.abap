@@ -15,8 +15,13 @@ CLASS zcl_translatable_textpool DEFINITION
       parse_text_id IMPORTING text_id TYPE string EXPORTING id TYPE textpoolid key TYPE textpoolky,
       get_text IMPORTING text_id TYPE string RETURNING VALUE(text) TYPE REF TO zif_translatable=>t_text,
       modify_translation IMPORTING sap_lang TYPE syst_langu content TYPE textpooltx
-                         CHANGING  translations TYPE zif_translatable=>tt_translation..
-
+                         CHANGING  translations TYPE zif_translatable=>tt_translation,
+      update_translation_log IMPORTING sap_lang TYPE syst_langu.
+    CONSTANTS:
+      BEGIN OF c_sel_text,
+        no_ref_prefix TYPE c LENGTH 8 VALUE '        ',
+        ref_whole     TYPE c LENGTH 9 VALUE 'D       .',
+      END OF c_sel_text.
     DATA:
       texts        TYPE zif_translatable=>tt_text.
 ENDCLASS.
@@ -69,6 +74,8 @@ CLASS zcl_translatable_textpool IMPLEMENTATION.
     ENDLOOP.
 
     INSERT TEXTPOOL zif_translatable~object_name FROM textpool LANGUAGE sap_lang.
+
+    update_translation_log( sap_lang ).
   ENDMETHOD.
 
   METHOD get_text.
@@ -88,10 +95,23 @@ CLASS zcl_translatable_textpool IMPLEMENTATION.
 
   METHOD zif_translatable_subcomponent~modify_text.
     DATA(program_text) = get_text( new_text-text_id ).
+    parse_text_id( EXPORTING text_id = program_text->text_id IMPORTING id = DATA(id) ).
     LOOP AT new_text-translations REFERENCE INTO DATA(new_translation).
-      modify_translation( EXPORTING sap_lang = new_translation->sap_lang content = new_translation->content
+      DATA(content) = COND textpooltx( WHEN id = 'S' AND new_translation->content(9) <> c_sel_text-ref_whole
+          THEN |{ c_sel_text-no_ref_prefix WIDTH = 8 }{ new_translation->content }| ELSE new_translation->content ).
+      modify_translation( EXPORTING sap_lang = new_translation->sap_lang content = content
                           CHANGING translations = program_text->translations ).
     ENDLOOP.
+  ENDMETHOD.
+
+
+  METHOD update_translation_log.
+    SELECT SINGLE custmnr FROM lxe_custmnr INTO @DATA(custmnr).
+    GET TIME.
+
+    DATA(lxe_log_entry) = VALUE lxe_log( custmnr = custmnr objtype = 'RPT4' objname = zif_translatable~object_name
+        targlng = sap_lang uname = sy-uname udate = sy-datum utime = sy-uzeit ).
+    MODIFY lxe_log FROM @lxe_log_entry.
   ENDMETHOD.
 
 ENDCLASS.

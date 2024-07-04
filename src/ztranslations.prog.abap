@@ -77,8 +77,7 @@ FORM import.
   LOOP AT all_texts REFERENCE INTO DATA(single_text)
   GROUP BY ( object_type = single_text->object_type object_name = single_text->object_name ) REFERENCE INTO DATA(grouped).
     DATA(translatable) = zcl_translation_factory=>create_translatable( object_type = grouped->object_type object_name = grouped->object_name ).
-    translatable->modify_texts( FILTER #( all_texts USING KEY text_id
-        WHERE object_type = grouped->object_type AND object_name = grouped->object_name ) ).
+    translatable->modify_texts( all_texts ).
     translation_objects->add_translatable( translatable ).
   ENDLOOP.
 
