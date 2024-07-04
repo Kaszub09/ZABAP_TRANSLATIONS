@@ -1,0 +1,22 @@
+name: unit_tests_on_pull_request
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+    - name: npm install
+      run: npm install
+    - name: npm run unit
+      run: npm run unit
+    - name: npm run coverage
+      run: npm run coverage
+ 
