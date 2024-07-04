@@ -16,6 +16,6 @@ Allows for easy export of all texts in given package/program etc. to excel file,
 | Data element | - | |
 | Domain values | - | |
 | Transactions | - | |
-
+ 
 #TO DO
 Transport creation based on imported texts
