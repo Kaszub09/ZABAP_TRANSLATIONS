@@ -21,7 +21,7 @@ CLASS zcl_translatable_class IMPLEMENTATION.
 
     class_program = zcl_translation_factory=>create_translatable(
         object_type = zcl_translation_globals=>c_object_type-program
-        object_name =   cl_oo_include_naming=>get_instance_by_name( to_upper( class_name ) )->pool ).
+        object_name = cl_oo_include_naming=>get_instance_by_name( to_upper( class_name ) )->pool ).
   ENDMETHOD.
 
   METHOD zif_translatable~read_language.
