@@ -4,7 +4,6 @@ CLASS ltcl_translation_factory DEFINITION FINAL FOR TESTING DURATION SHORT RISK 
 
   PRIVATE SECTION.
     METHODS:
-      setup,
       can_create FOR TESTING,
       error_on_create FOR TESTING,
       verify_can_create_translatable IMPORTING object_type TYPE trobjtype object_name TYPE sobj_name,
