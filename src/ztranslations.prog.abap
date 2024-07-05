@@ -4,35 +4,7 @@
 *&
 *&---------------------------------------------------------------------*
 REPORT ztranslations.
-
-TABLES:
-  tadir.
-
-"---------------------------------------------------------------------
-" SELECTION SCREEN
-"---------------------------------------------------------------------
-SELECTION-SCREEN BEGIN OF BLOCK b01 WITH FRAME TITLE TEXT-s01.
-SELECT-OPTIONS: s_lang FOR sy-langu.
-SELECTION-SCREEN END OF BLOCK b01.
-
-SELECTION-SCREEN BEGIN OF BLOCK b04 WITH FRAME TITLE TEXT-s04.
-SELECT-OPTIONS:
-s_packag FOR tadir-devclass,
-s_prog FOR tadir-obj_name,
-s_class FOR tadir-obj_name,
-s_fungr FOR tadir-obj_name,
-s_msgcls FOR tadir-obj_name.
-SELECTION-SCREEN END OF BLOCK b04.
-
-SELECTION-SCREEN BEGIN OF BLOCK b02 WITH FRAME TITLE TEXT-s02.
-PARAMETERS:
-  p_export RADIOBUTTON GROUP g1,
-  p_import RADIOBUTTON GROUP g1.
-SELECTION-SCREEN END OF BLOCK b02.
-
-SELECTION-SCREEN BEGIN OF BLOCK b03 WITH FRAME TITLE TEXT-s03.
-PARAMETERS: p_file TYPE string.
-SELECTION-SCREEN END OF BLOCK b03.
+INCLUDE ztranslations_selection_screen.
 
 "---------------------------------------------------------------------
 " REPORT
@@ -52,10 +24,14 @@ FORM export.
   FIELDS object  AS object_type, obj_name AS object_name
   WHERE devclass IN @s_packag
     AND ( ( devclass IN @s_packag AND @( lines( s_packag[] ) ) > 0 )
+       OR ( object = @zcl_translation_globals=>c_object_type-transaction AND obj_name IN @s_transa AND @( lines( s_transa[] ) ) > 0 )
        OR ( object = @zcl_translation_globals=>c_object_type-program AND obj_name IN @s_prog AND @( lines( s_prog[] ) ) > 0 )
        OR ( object = @zcl_translation_globals=>c_object_type-class AND obj_name IN @s_class AND @( lines( s_class[] ) ) > 0 )
        OR ( object = @zcl_translation_globals=>c_object_type-function_group AND obj_name IN @s_fungr AND @( lines( s_fungr[] ) ) > 0 )
-       OR ( object = @zcl_translation_globals=>c_object_type-message_class AND obj_name IN @s_msgcls AND @( lines( s_msgcls[] ) ) > 0 ) )
+       OR ( object = @zcl_translation_globals=>c_object_type-message_class AND obj_name IN @s_msgcls AND @( lines( s_msgcls[] ) ) > 0 )
+       OR ( object = @zcl_translation_globals=>c_object_type-table AND obj_name IN @s_table AND @( lines( s_table[] ) ) > 0 )
+       OR ( object = @zcl_translation_globals=>c_object_type-data_element AND obj_name IN @s_datael AND @( lines( s_datael[] ) ) > 0 )
+       OR ( object = @zcl_translation_globals=>c_object_type-domain AND obj_name IN @s_domain AND @( lines( s_domain[] ) ) > 0 ) )
   INTO TABLE @DATA(objects).
 
   DATA(translation_objects) = NEW zcl_translation_objects( languages ).
