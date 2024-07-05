@@ -127,7 +127,7 @@
       <LANGU>E</LANGU>
       <TYP>E</TYP>
       <VERSION>0006</VERSION>
-      <TXTLINES>00010</TXTLINES>
+      <TXTLINES>00011</TXTLINES>
       <DOKSTATE>A</DOKSTATE>
      </DOKIL>
      <HEAD>
@@ -196,7 +196,11 @@
        <TDLINE>Only selected languages are imported (if selected language doesn&apos;t</TDLINE>
       </TLINE>
       <TLINE>
-       <TDLINE>exists in file, it is skipped).</TDLINE>
+       <TDLINE>exists in file, it is skipped).After import, use SLXT to create t</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>=</TDFORMAT>
+       <TDLINE>rnasport with changed objects.</TDLINE>
       </TLINE>
       <TLINE>
        <TDFORMAT>*</TDFORMAT>
