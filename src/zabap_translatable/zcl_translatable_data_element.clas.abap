@@ -147,6 +147,10 @@ CLASS zcl_translatable_data_element IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD update_dd04l.
+    IF lines( dd04t ) = 0.
+      RETURN.
+    ENDIF.
+
     "Update texts lengths, in case some new text are longer
     SELECT * FROM dd04l
     FOR ALL ENTRIES IN @dd04t
