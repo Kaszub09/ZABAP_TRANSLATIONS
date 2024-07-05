@@ -9,20 +9,10 @@ CLASS ltcl_translation_factory DEFINITION FINAL FOR TESTING DURATION SHORT RISK 
       error_on_create FOR TESTING,
       verify_can_create_translatable IMPORTING object_type TYPE trobjtype object_name TYPE sobj_name,
       verify_can_create_transla_sub IMPORTING sub_type TYPE string object_name TYPE sobj_name.
-
-    DATA:
-        cut TYPE REF TO zcl_im_mm_fill_del_inflog.
 ENDCLASS.
 
 
 CLASS ltcl_translation_factory IMPLEMENTATION.
-
-
-  METHOD setup.
-    cut = NEW #( ).
-  ENDMETHOD.
-
-
   METHOD can_create.
     verify_can_create_translatable( object_type = zcl_translation_globals=>c_object_type-class object_name = 'ZCL_TRANSLATIONS_TEST_CLASS' ).
     verify_can_create_translatable( object_type = zcl_translation_globals=>c_object_type-data_element object_name = 'ZABAP_TRANSLATION_TEST_DE' ).
