@@ -1,33 +1,30 @@
-CLASS zcl_translatable_table DEFINITION
- PUBLIC
-  FINAL
-  CREATE PUBLIC .
+CLASS zcl_translatable_table DEFINITION PUBLIC CREATE PRIVATE GLOBAL FRIENDS zcl_translation_factory.
 
   PUBLIC SECTION.
     INTERFACES:
       zif_translatable.
+
     METHODS:
-      constructor IMPORTING program TYPE sobj_name.
+      constructor IMPORTING table TYPE sobj_name.
+
   PROTECTED SECTION.
+
   PRIVATE SECTION.
     TYPES:
       t_table TYPE c LENGTH 5,
       BEGIN OF  t_text_id_parsed,
-        tab        TYPE t_table,
-        tabname    TYPE tabname,
-        fieldname  TYPE fieldname,
-        ddlanguage TYPE ddlanguage,
-        as4local   TYPE as4local,
-        as4vers    TYPE as4vers,
+        tab       TYPE t_table,
+        fieldname TYPE fieldname,
+        as4local  TYPE as4local,
+        as4vers   TYPE as4vers,
       END OF  t_text_id_parsed.
 
     METHODS:
       get_text_id IMPORTING parsed TYPE  t_text_id_parsed RETURNING VALUE(text_id) TYPE string,
-      parse_text_id IMPORTING text_id TYPE string EXPORTING parsed TYPE  t_text_id_parsed,
+      parse_text_id IMPORTING text_id TYPE string RETURNING VALUE(parsed) TYPE t_text_id_parsed,
       get_text IMPORTING text_id TYPE string RETURNING VALUE(text) TYPE REF TO zif_translatable=>t_text,
       modify_translation IMPORTING sap_lang TYPE syst_langu content TYPE textpooltx
-                         CHANGING  translations TYPE zif_translatable=>tt_translation,
-      update_lxe_log IMPORTING sap_lang TYPE sy-langu descriptions TYPE abap_bool keys TYPE abap_bool.
+                         CHANGING  translations TYPE zif_translatable=>tt_translation.
 
     CONSTANTS:
       BEGIN OF c_lxe_type,
@@ -44,29 +41,27 @@ CLASS zcl_translatable_table DEFINITION
       texts    TYPE zif_translatable=>tt_text.
 ENDCLASS.
 
-
-
 CLASS zcl_translatable_table IMPLEMENTATION.
   METHOD constructor.
-    zif_translatable~object_name = program.
-    zif_translatable~object_type = zcl_translation_globals=>c_object_type-program.
+    zif_translatable~object_name = table.
+    zif_translatable~object_type = zcl_translation_globals=>c_object_type-table.
   ENDMETHOD.
 
   METHOD zif_translatable~read_language.
     DATA(empty_as4vers) = VALUE as4vers( ).
-    SELECT @c_table-dd08t AS tab, tabname, fieldname, ddlanguage, as4local, as4vers, ddtext
+    SELECT @c_table-dd08t AS tab, fieldname, as4local, as4vers, ddtext
     FROM dd08t WHERE tabname = @zif_translatable~object_name AND ddlanguage = @sap_lang
     UNION
-    SELECT @c_table-dd02t AS tab, tabname,@space AS fieldname, ddlanguage, as4local, as4vers, ddtext
+    SELECT @c_table-dd02t AS tab,@space AS fieldname, as4local, as4vers, ddtext
     FROM dd02t WHERE tabname = @zif_translatable~object_name AND ddlanguage = @sap_lang
     UNION
-    SELECT @c_table-dd02t AS tab,tabname, fieldname, ddlanguage, as4local, @empty_as4vers AS as4vers, ddtext
+    SELECT @c_table-dd03t AS tab, fieldname, as4local, @empty_as4vers AS as4vers, ddtext
     FROM dd03t WHERE tabname = @zif_translatable~object_name AND ddlanguage = @sap_lang
     INTO TABLE @DATA(table_texts).
 
     LOOP AT table_texts REFERENCE INTO DATA(text).
-      DATA(program_text) = get_text( get_text_id( VALUE #( tab = text->tab tabname = text->tabname fieldname = text->fieldname
-                                                  ddlanguage = text->ddlanguage as4local = text->as4local as4vers = text->as4vers ) ) ).
+      DATA(program_text) = get_text( get_text_id( VALUE #( tab = text->tab fieldname = text->fieldname
+                                                           as4local = text->as4local as4vers = text->as4vers ) ) ).
       modify_translation( EXPORTING sap_lang = sap_lang content = CONV #( text->ddtext ) CHANGING translations = program_text->translations ).
     ENDLOOP.
   ENDMETHOD.
@@ -76,11 +71,11 @@ CLASS zcl_translatable_table IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD get_text_id.
-    text_id = |{ parsed-tab }\|{ parsed-tabname }\|{ parsed-fieldname }\|{ parsed-ddlanguage }\|{ parsed-as4local }\|{ parsed-as4vers }|.
+    text_id = |{ parsed-tab }\|{ parsed-fieldname }\|{ parsed-as4local }\|{ parsed-as4vers }|.
   ENDMETHOD.
 
   METHOD parse_text_id.
-    SPLIT text_id AT '|' INTO parsed-tab parsed-tabname parsed-fieldname parsed-ddlanguage parsed-as4local parsed-as4vers.
+    SPLIT text_id AT '|' INTO parsed-tab parsed-fieldname parsed-as4local parsed-as4vers.
   ENDMETHOD.
 
   METHOD zif_translatable~modify_texts.
@@ -95,26 +90,29 @@ CLASS zcl_translatable_table IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD zif_translatable~save_modified_texts.
+    DATA(lxe_log) = zcl_translation_factory=>get_lxe_log( ).
+    DATA lxe_log_table TYPE lxe_log->tt_lxe_log.
+
     DATA dd02t_table TYPE STANDARD TABLE OF dd02t WITH EMPTY KEY.
     DATA dd03t_table TYPE STANDARD TABLE OF dd03t WITH EMPTY KEY.
     DATA dd08t_table TYPE STANDARD TABLE OF dd08t WITH EMPTY KEY.
 
-    DATA(lxe_descriptions) = abap_false.
-    DATA(lxe_keys) = abap_false.
-
     LOOP AT texts REFERENCE INTO DATA(text).
-      parse_text_id( EXPORTING text_id = text->text_id IMPORTING parsed = DATA(parsed_text_id) ).
+      DATA(parsed) = parse_text_id( text->text_id ).
       LOOP AT text->translations REFERENCE INTO DATA(translation) WHERE sap_lang = sap_lang.
-        CASE parsed_text_id-tab.
+        CASE parsed-tab.
           WHEN c_table-dd02t.
-            APPEND VALUE #( BASE CORRESPONDING dd02t( parsed_text_id ) ddlanguage = sap_lang ddtext  = translation->content ) TO dd02t_table.
-            lxe_descriptions = abap_true.
+            APPEND VALUE #( BASE CORRESPONDING dd02t( parsed ) tabname = zif_translatable~object_name
+                            ddlanguage = sap_lang ddtext  = translation->content ) TO dd02t_table.
+            APPEND VALUE #( objname = zif_translatable~object_name objtype = c_lxe_type-descriptions targlng = sap_lang  ) TO lxe_log_table.
           WHEN c_table-dd03t.
-            APPEND VALUE #( BASE CORRESPONDING dd03t( parsed_text_id ) ddlanguage = sap_lang ddtext  = translation->content ) TO dd03t_table.
-            lxe_descriptions = abap_true.
+            APPEND VALUE #( BASE CORRESPONDING dd03t( parsed ) tabname = zif_translatable~object_name
+                            ddlanguage = sap_lang ddtext  = translation->content ) TO dd03t_table.
+            APPEND VALUE #( objname = zif_translatable~object_name objtype = c_lxe_type-descriptions targlng = sap_lang  ) TO lxe_log_table.
           WHEN c_table-dd08t.
-            APPEND VALUE #( BASE CORRESPONDING dd08t( parsed_text_id ) ddlanguage = sap_lang ddtext  = translation->content ) TO dd08t_table.
-            lxe_keys = abap_true.
+            APPEND VALUE #( BASE CORRESPONDING dd08t( parsed ) tabname = zif_translatable~object_name
+                            ddlanguage = sap_lang ddtext  = translation->content ) TO dd08t_table.
+            APPEND VALUE #( objname = zif_translatable~object_name objtype = c_lxe_type-keys targlng = sap_lang  ) TO lxe_log_table.
         ENDCASE.
       ENDLOOP.
     ENDLOOP.
@@ -123,7 +121,7 @@ CLASS zcl_translatable_table IMPLEMENTATION.
     MODIFY dd03t FROM TABLE @dd03t_table.
     MODIFY dd08t FROM TABLE @dd08t_table.
 
-    update_lxe_log( sap_lang = sap_lang descriptions = lxe_descriptions keys = lxe_keys ).
+    lxe_log->update_lxe_log( lxe_log_table ).
   ENDMETHOD.
 
   METHOD get_text.
@@ -141,24 +139,4 @@ CLASS zcl_translatable_table IMPLEMENTATION.
     ENDIF.
     translation->content = content.
   ENDMETHOD.
-
-  METHOD update_lxe_log.
-    DATA lxe_log_table TYPE STANDARD TABLE OF lxe_log WITH EMPTY KEY.
-
-    SELECT SINGLE custmnr FROM lxe_custmnr INTO @DATA(custmnr).
-    GET TIME.
-
-    IF descriptions = abap_true.
-      APPEND VALUE #( custmnr = custmnr objname = zif_translatable~object_name objtype = c_lxe_type-descriptions targlng = sap_lang
-          uname = sy-uname udate = sy-datum utime = sy-uzeit ) TO lxe_log_table.
-    ENDIF.
-    IF keys = abap_true.
-      APPEND VALUE #( custmnr = custmnr objname = zif_translatable~object_name objtype = c_lxe_type-keys targlng = sap_lang
-          uname = sy-uname udate = sy-datum utime = sy-uzeit ) TO lxe_log_table.
-    ENDIF.
-
-
-    MODIFY lxe_log FROM TABLE @lxe_log_table.
-  ENDMETHOD.
-
 ENDCLASS.

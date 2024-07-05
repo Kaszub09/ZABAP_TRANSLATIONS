@@ -23,7 +23,8 @@ CLASS ltcl_translatable_textpool DEFINITION FINAL FOR TESTING DURATION SHORT RIS
       save_modified_in_db IMPORTING en TYPE abap_bool DEFAULT abap_true pl TYPE abap_bool DEFAULT abap_true,
       verify_lxe_log_after_save FOR TESTING,
       verify_textpools_after_save FOR TESTING,
-      check_textpool IMPORTING textpool TYPE tt_textpool sap_lang TYPE sy-langu.
+      check_textpool IMPORTING textpool TYPE tt_textpool sap_lang TYPE sy-langu,
+      varify_another_lang_not_saved FOR TESTING.
 
     DATA:
         cut TYPE REF TO zif_translatable.
@@ -125,21 +126,32 @@ CLASS ltcl_translatable_textpool IMPLEMENTATION.
     IF en = abap_true.
       cut->save_modified_texts( c_lang_en ).
     ENDIF.
-    IF en = abap_true.
+    IF pl = abap_true.
       cut->save_modified_texts( c_lang_pl ).
     ENDIF.
   ENDMETHOD.
 
   METHOD verify_lxe_log_after_save.
-    save_modified_in_db( ).
+    DATA(lxe_log) = zcl_translation_factory=>get_lxe_log( ).
+    DATA(lxe_lang_en) = lxe_log->lxe_languages[ sap = c_lang_en ]-lxe_lang.
+    DATA(lxe_lang_pl) = lxe_log->lxe_languages[ sap = c_lang_pl ]-lxe_lang.
 
+    "One lang
+    save_modified_in_db( pl = abap_false ).
     SELECT SINGLE @abap_true FROM lxe_log
-    WHERE targlng = @c_lang_en AND objtype = 'RPT4' AND objname = @c_test_prog
+    WHERE targlng = @lxe_lang_pl AND objtype = 'RPT4' AND objname = @c_test_prog
+        AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy3).
+    cl_abap_unit_assert=>assert_subrc( exp = 4 msg = |Change log in PL shouldn't be found| ).
+
+    "Both lang
+    save_modified_in_db( ).
+    SELECT SINGLE @abap_true FROM lxe_log
+    WHERE targlng = @lxe_lang_en AND objtype = 'RPT4' AND objname = @c_test_prog
         AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy1).
     cl_abap_unit_assert=>assert_subrc( exp = 0 msg = |Change log in EN not found| ).
 
     SELECT SINGLE @abap_true FROM lxe_log
-    WHERE targlng = @c_lang_pl AND objtype = 'RPT4' AND objname = @c_test_prog
+    WHERE targlng = @lxe_lang_pl AND objtype = 'RPT4' AND objname = @c_test_prog
         AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy2).
     cl_abap_unit_assert=>assert_subrc( exp = 0 msg = |Change log in PL not found| ).
   ENDMETHOD.
@@ -184,6 +196,17 @@ CLASS ltcl_translatable_textpool IMPLEMENTATION.
 
     SORT: textpool_exp BY id key, textpool_act BY id key.
     cl_abap_unit_assert=>assert_equals( exp = textpool_exp act = textpool_act msg = |Different textpool in language { sap_lang }| ).
+  ENDMETHOD.
+
+  METHOD varify_another_lang_not_saved.
+    DATA:
+      textpool_pl TYPE tt_textpool.
+    READ TEXTPOOL c_test_prog INTO textpool_pl LANGUAGE c_lang_pl.
+
+    save_modified_in_db( pl = abap_false ).
+
+    "Verify
+    check_textpool( textpool = textpool_pl sap_lang = c_lang_pl ).
   ENDMETHOD.
 
 ENDCLASS.

@@ -5,11 +5,12 @@ CONSTANTS:
 
 CLASS ltcl_translatable_messages DEFINITION DEFERRED.
 CLASS zcl_translatable_messages DEFINITION LOCAL FRIENDS ltcl_translatable_messages.
-CLASS ltcl_translatable_messages DEFINITION FINAL FOR TESTING DURATION SHORT RISK LEVEL HARMLESS.
+CLASS ltcl_translatable_messages DEFINITION FINAL FOR TESTING RISK LEVEL HARMLESS DURATION SHORT.
 
   PRIVATE SECTION.
     CLASS-METHODS:
       class_teardown.
+
     METHODS:
       setup,
       read_text_in_one_language FOR TESTING,
@@ -25,7 +26,6 @@ CLASS ltcl_translatable_messages DEFINITION FINAL FOR TESTING DURATION SHORT RIS
     DATA:
         cut TYPE REF TO zif_translatable.
 ENDCLASS.
-
 
 CLASS ltcl_translatable_messages IMPLEMENTATION.
   METHOD class_teardown.
@@ -94,7 +94,6 @@ CLASS ltcl_translatable_messages IMPLEMENTATION.
         exp = message1 msg = |Text 001 in EN shouldn't be modified| ).
   ENDMETHOD.
 
-
   METHOD save_modified_in_db.
     cut->read_language( c_lang_en ).
     DATA(new_texts) = VALUE zif_translatable=>tt_text( object_name = cut->object_name object_type = cut->object_type
@@ -105,33 +104,36 @@ CLASS ltcl_translatable_messages IMPLEMENTATION.
     IF en = abap_true.
       cut->save_modified_texts( c_lang_en ).
     ENDIF.
-    IF en = abap_true.
+    IF pl = abap_true.
       cut->save_modified_texts( c_lang_pl ).
     ENDIF.
   ENDMETHOD.
 
   METHOD verify_lxe_log_after_save.
+    DATA(lxe_log) = zcl_translation_factory=>get_lxe_log( ).
+    DATA(lxe_lang_en) = lxe_log->lxe_languages[ sap = c_lang_en ]-lxe_lang.
+    DATA(lxe_lang_pl) = lxe_log->lxe_languages[ sap = c_lang_pl ]-lxe_lang.
+
     save_modified_in_db( ).
-    "001
     SELECT SINGLE @abap_true FROM lxe_log
-    WHERE targlng = @c_lang_en AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS001'
-        AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy1).
+    WHERE targlng = @lxe_lang_en AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS001'
+        AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy2).
     cl_abap_unit_assert=>assert_subrc( exp = 0 msg = |Change log for MSG 001 in EN not found| ).
 
+    "It's not modified, but saved anyway since we don't differentiate if read text was or wasn't modified
     SELECT SINGLE @abap_true FROM lxe_log
-    WHERE targlng = @c_lang_pl AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS001'
-        AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy3).
-    cl_abap_unit_assert=>assert_subrc( exp = 4 msg = |Change log for MSG 001 in PL not expected| ).
-
-    "002
-    SELECT SINGLE @abap_true FROM lxe_log
-    WHERE targlng = @c_lang_en AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS002'
-        AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy2).
+    WHERE targlng = @lxe_lang_en AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS002'
+        AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy4).
     cl_abap_unit_assert=>assert_subrc( exp = 0 msg = |Change log for MSG 002 in EN not found| ).
 
     SELECT SINGLE @abap_true FROM lxe_log
-    WHERE targlng = @c_lang_pl AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS002'
-        AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy4).
+    WHERE targlng = @lxe_lang_pl AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS001'
+        AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy5).
+    cl_abap_unit_assert=>assert_subrc( exp = 4 msg = |Change log for MSG 001 in PL not expected| ).
+
+    SELECT SINGLE @abap_true FROM lxe_log
+    WHERE targlng = @lxe_lang_pl AND objtype = 'MESS' AND objname = 'ZTRAN_TEST_MSG_CLASS002'
+        AND uname = @sy-uname AND udate = @sy-datum INTO @DATA(dummy6).
     cl_abap_unit_assert=>assert_subrc( exp = 0 msg = |Change log for MSG 002 in PL not found| ).
   ENDMETHOD.
 
@@ -139,7 +141,8 @@ CLASS ltcl_translatable_messages IMPLEMENTATION.
     SELECT * FROM t100 WHERE arbgb = @c_test_msg_class INTO TABLE @DATA(t100_exp).
 
     t100_exp[ sprsl = c_lang_en arbgb = c_test_msg_class msgnr = '001' ]-text = 'Modified'.
-    DELETE t100_exp WHERE sprsl = c_lang_pl AND arbgb = c_test_msg_class AND msgnr = '002'. "Delete/Append in case it doesn't exists
+    "Delete/Append in case msg doesn't exists
+    DELETE t100_exp WHERE sprsl = c_lang_pl AND arbgb = c_test_msg_class AND msgnr = '002'.
     APPEND VALUE #( sprsl = c_lang_pl arbgb = c_test_msg_class msgnr = '002' text =  'New in another lang' ) TO t100_exp.
 
     save_modified_in_db( ).
@@ -171,5 +174,4 @@ CLASS ltcl_translatable_messages IMPLEMENTATION.
     SELECT * FROM t100u WHERE arbgb = @c_test_msg_class INTO TABLE @DATA(t100u_act).
     cl_abap_unit_assert=>assert_equals( act = t100u_act exp = t100u_exp ).
   ENDMETHOD.
-
 ENDCLASS.

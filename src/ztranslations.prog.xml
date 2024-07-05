@@ -66,6 +66,18 @@
     </item>
     <item>
      <ID>S</ID>
+     <KEY>S_DATAEL</KEY>
+     <ENTRY>Data element</ENTRY>
+     <LENGTH>20</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>S_DOMAIN</KEY>
+     <ENTRY>Domain</ENTRY>
+     <LENGTH>14</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
      <KEY>S_FUNGR</KEY>
      <ENTRY>Function group</ENTRY>
      <LENGTH>22</LENGTH>
@@ -94,27 +106,38 @@
      <ENTRY>Program</ENTRY>
      <LENGTH>15</LENGTH>
     </item>
+    <item>
+     <ID>S</ID>
+     <KEY>S_TABLE</KEY>
+     <ENTRY>Table</ENTRY>
+     <LENGTH>13</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>S_TRANSA</KEY>
+     <ENTRY>Transaction</ENTRY>
+     <LENGTH>19</LENGTH>
+    </item>
    </TPOOL>
    <LONGTEXTS>
     <item>
      <DOKIL>
       <ID>RE</ID>
       <OBJECT>ZTRANSLATIONS</OBJECT>
-      <LANGU>L</LANGU>
+      <LANGU>E</LANGU>
       <TYP>E</TYP>
-      <VERSION>0003</VERSION>
-      <MASTERLANG>X</MASTERLANG>
-      <TXTLINES>00009</TXTLINES>
+      <VERSION>0006</VERSION>
+      <TXTLINES>00010</TXTLINES>
       <DOKSTATE>A</DOKSTATE>
      </DOKIL>
      <HEAD>
       <TDOBJECT>DOKU</TDOBJECT>
       <TDNAME>ZTRANSLATIONS</TDNAME>
       <TDID>RE</TDID>
-      <TDSPRAS>L</TDSPRAS>
+      <TDSPRAS>E</TDSPRAS>
       <TDFORM>S_DOCU_SHOW</TDFORM>
       <TDSTYLE>S_DOCUS1</TDSTYLE>
-      <TDVERSION>00003</TDVERSION>
+      <TDVERSION>00006</TDVERSION>
       <TDLINESIZE>072</TDLINESIZE>
      </HEAD>
      <LINES>
@@ -124,6 +147,7 @@
       </TLINE>
       <TLINE>
        <TDFORMAT>AS</TDFORMAT>
+       <TDLINE>Easy mass export/import of translations.</TDLINE>
       </TLINE>
       <TLINE>
        <TDFORMAT>U1</TDFORMAT>
@@ -142,23 +166,166 @@
       </TLINE>
       <TLINE>
        <TDFORMAT>*</TDFORMAT>
-       <TDLINE>- First row must be headers structure with fields</TDLINE>
+       <TDLINE>First row must be headers structure with fields</TDLINE>
       </TLINE>
       <TLINE>
-       <TDFORMAT>*</TDFORMAT>
+       <TDFORMAT>E1</TDFORMAT>
        <TDLINE>,,- OBJECT_TYPE</TDLINE>
       </TLINE>
       <TLINE>
-       <TDFORMAT>*</TDFORMAT>
+       <TDFORMAT>E1</TDFORMAT>
        <TDLINE>,,- OBJECT_NAME</TDLINE>
       </TLINE>
       <TLINE>
-       <TDFORMAT>*</TDFORMAT>
+       <TDFORMAT>E1</TDFORMAT>
        <TDLINE>,,- TEXT_ID</TDLINE>
       </TLINE>
       <TLINE>
+       <TDFORMAT>E1</TDFORMAT>
+       <TDLINE>,,- Languages columns (2 character ISO code in uppercase, eg. EN. PL...)</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>E1</TDFORMAT>
+       <TDLINE>,,- Any other columns - they are skipped</TDLINE>
+      </TLINE>
+      <TLINE>
        <TDFORMAT>*</TDFORMAT>
-       <TDLINE>,,- Languages columns (2 character ISO code in uppercase)</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>*</TDFORMAT>
+       <TDLINE>Only selected languages are imported (if selected language doesn&apos;t</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDLINE>exists in file, it is skipped).</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>*</TDFORMAT>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>U1</TDFORMAT>
+       <TDLINE>&amp;FEATURES&amp;</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>AS</TDFORMAT>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>U2</TDFORMAT>
+       <TDLINE>&amp;SELECTION&amp;</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>AS</TDFORMAT>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>U2</TDFORMAT>
+       <TDLINE>&amp;STANDARD_VARIANTS&amp;</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>AS</TDFORMAT>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>U2</TDFORMAT>
+       <TDLINE>&amp;OUTPUT&amp;</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>AS</TDFORMAT>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>U1</TDFORMAT>
+       <TDLINE>&amp;ACTIVITIES&amp;</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>AS</TDFORMAT>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>U1</TDFORMAT>
+       <TDLINE>&amp;EXAMPLE&amp;</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>AS</TDFORMAT>
+      </TLINE>
+     </LINES>
+    </item>
+    <item>
+     <DOKIL>
+      <ID>RE</ID>
+      <OBJECT>ZTRANSLATIONS</OBJECT>
+      <LANGU>L</LANGU>
+      <TYP>E</TYP>
+      <VERSION>0006</VERSION>
+      <MASTERLANG>X</MASTERLANG>
+      <TXTLINES>00013</TXTLINES>
+      <DOKSTATE>A</DOKSTATE>
+     </DOKIL>
+     <HEAD>
+      <TDOBJECT>DOKU</TDOBJECT>
+      <TDNAME>ZTRANSLATIONS</TDNAME>
+      <TDID>RE</TDID>
+      <TDSPRAS>L</TDSPRAS>
+      <TDFORM>S_DOCU_SHOW</TDFORM>
+      <TDSTYLE>S_DOCUS1</TDSTYLE>
+      <TDVERSION>00006</TDVERSION>
+      <TDLINESIZE>072</TDLINESIZE>
+     </HEAD>
+     <LINES>
+      <TLINE>
+       <TDFORMAT>U1</TDFORMAT>
+       <TDLINE>&amp;PURPOSE&amp;</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>AS</TDFORMAT>
+       <TDLINE>Easy mass export/import of translations.</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>U1</TDFORMAT>
+       <TDLINE>&amp;INTEGRATION&amp;</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>AS</TDFORMAT>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>U1</TDFORMAT>
+       <TDLINE>&amp;PREREQUISITES&amp;</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>*</TDFORMAT>
+       <TDLINE>Expected import file:</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>*</TDFORMAT>
+       <TDLINE>First row must be headers structure with fields</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>E1</TDFORMAT>
+       <TDLINE>,,- OBJECT_TYPE</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>E1</TDFORMAT>
+       <TDLINE>,,- OBJECT_NAME</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>E1</TDFORMAT>
+       <TDLINE>,,- TEXT_ID</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>E1</TDFORMAT>
+       <TDLINE>,,- Languages columns (2 character ISO code in uppercase, eg. EN. PL...)</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>E1</TDFORMAT>
+       <TDLINE>,,- Any other columns - they are skipped</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>*</TDFORMAT>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>*</TDFORMAT>
+       <TDLINE>Only selected languages are imported (if selected language doesn&apos;t</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDLINE>exists in file, it is skipped).</TDLINE>
+      </TLINE>
+      <TLINE>
+       <TDFORMAT>*</TDFORMAT>
       </TLINE>
       <TLINE>
        <TDFORMAT>U1</TDFORMAT>

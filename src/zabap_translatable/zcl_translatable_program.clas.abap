@@ -1,17 +1,14 @@
-CLASS zcl_translatable_program DEFINITION
-  PUBLIC
-  FINAL
-  CREATE PUBLIC .
-
+CLASS zcl_translatable_program DEFINITION PUBLIC CREATE PRIVATE GLOBAL FRIENDS zcl_translation_factory.
   PUBLIC SECTION.
     INTERFACES:
       zif_translatable.
+
     METHODS:
-      constructor IMPORTING program TYPE sobj_name.
-  PROTECTED SECTION.
+      constructor IMPORTING program TYPE sobj_name RAISING zcx_translation.
+
   PRIVATE SECTION.
     METHODS:
-      add_subcomponent IMPORTING sub_type TYPE string.
+      add_subcomponent IMPORTING sub_type TYPE string RAISING zcx_translation.
 
     DATA:
       subcomponents TYPE STANDARD TABLE OF REF TO zif_translatable.
@@ -54,5 +51,4 @@ CLASS zcl_translatable_program IMPLEMENTATION.
       subcomponent->save_modified_texts( sap_lang ).
     ENDLOOP.
   ENDMETHOD.
-
 ENDCLASS.

@@ -1,21 +1,19 @@
-CLASS zcl_translatable_transaction DEFINITION
- PUBLIC
-  FINAL
-  CREATE PUBLIC .
+CLASS zcl_translatable_transaction DEFINITION PUBLIC CREATE PRIVATE GLOBAL FRIENDS zcl_translation_factory.
 
   PUBLIC SECTION.
     INTERFACES:
       zif_translatable.
+
     METHODS:
       constructor IMPORTING transaction TYPE sobj_name.
-  PROTECTED SECTION.
-  PRIVATE SECTION.
 
+  PROTECTED SECTION.
+
+  PRIVATE SECTION.
     METHODS:
       get_text IMPORTING text_id TYPE string RETURNING VALUE(text) TYPE REF TO zif_translatable=>t_text,
       modify_translation IMPORTING sap_lang TYPE syst_langu content TYPE textpooltx
-                         CHANGING  translations TYPE zif_translatable=>tt_translation,
-      update_lxe_log IMPORTING sap_lang TYPE sy-langu .
+                         CHANGING  translations TYPE zif_translatable=>tt_translation.
 
     CONSTANTS:
       c_lxe_type  TYPE lxeobjtype VALUE 'TRAN'.
@@ -23,8 +21,6 @@ CLASS zcl_translatable_transaction DEFINITION
     DATA:
       texts    TYPE zif_translatable=>tt_text.
 ENDCLASS.
-
-
 
 CLASS zcl_translatable_transaction IMPLEMENTATION.
   METHOD constructor.
@@ -44,7 +40,6 @@ CLASS zcl_translatable_transaction IMPLEMENTATION.
   METHOD zif_translatable~get_all_texts.
     texts = me->texts.
   ENDMETHOD.
-
 
   METHOD zif_translatable~modify_texts.
     LOOP AT new_texts REFERENCE INTO DATA(new_text) USING KEY text_id
@@ -67,7 +62,9 @@ CLASS zcl_translatable_transaction IMPLEMENTATION.
     ENDLOOP.
 
     MODIFY tstct FROM TABLE @tstct_table.
-    update_lxe_log(  sap_lang ).
+
+    zcl_translation_factory=>get_lxe_log( )->update_lxe_log( VALUE #( (
+        objname = zif_translatable~object_name objtype = c_lxe_type targlng = sap_lang ) ) ).
   ENDMETHOD.
 
   METHOD get_text.
@@ -85,16 +82,4 @@ CLASS zcl_translatable_transaction IMPLEMENTATION.
     ENDIF.
     translation->content = content.
   ENDMETHOD.
-
-  METHOD update_lxe_log.
-    DATA lxe_log_table TYPE STANDARD TABLE OF lxe_log WITH EMPTY KEY.
-
-    SELECT SINGLE custmnr FROM lxe_custmnr INTO @DATA(custmnr).
-    GET TIME.
-    APPEND VALUE #( custmnr = custmnr objname = zif_translatable~object_name objtype = c_lxe_type targlng = sap_lang
-       uname = sy-uname udate = sy-datum utime = sy-uzeit ) TO lxe_log_table.
-
-    MODIFY lxe_log FROM TABLE @lxe_log_table.
-  ENDMETHOD.
-
 ENDCLASS.

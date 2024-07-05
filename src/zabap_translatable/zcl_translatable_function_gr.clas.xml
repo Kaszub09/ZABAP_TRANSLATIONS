@@ -5,7 +5,7 @@
    <VSEOCLASS>
     <CLSNAME>ZCL_TRANSLATABLE_FUNCTION_GR</CLSNAME>
     <LANGU>E</LANGU>
-    <DESCRIPT>Translatable class</DESCRIPT>
+    <DESCRIPT>Translatable function group</DESCRIPT>
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
     <FIXPT>X</FIXPT>

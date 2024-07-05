@@ -4,7 +4,7 @@ CLASS zcl_translation_file DEFINITION PUBLIC FINAL CREATE PUBLIC.
     METHODS:
       constructor IMPORTING languages TYPE REF TO zcl_translation_languages,
       export_to_excel IMPORTING texts TYPE zif_translatable=>tt_text full_file_path TYPE string,
-      import_from_excel IMPORTING full_file_path TYPE string RETURNING VALUE(texts) TYPE zif_translatable=>tt_text.
+      import_from_excel IMPORTING full_file_path TYPE string RETURNING VALUE(texts) TYPE zif_translatable=>tt_text raising zcx_translation.
 
   PRIVATE SECTION.
     TYPES:
@@ -40,7 +40,7 @@ CLASS zcl_translation_file IMPLEMENTATION.
   METHOD export_to_excel.
     DATA(export_table) = build_export_table( texts = texts ).
     assign_to_table export_table->* <table>.
-    export_table_to_excel( EXPORTING full_file_path = full_file_path CHANGING export_table = <table>  ).
+    export_table_to_excel( EXPORTING full_file_path = full_file_path CHANGING export_table = <table> ).
   ENDMETHOD.
 
   METHOD build_export_table.
@@ -76,7 +76,7 @@ CLASS zcl_translation_file IMPLEMENTATION.
       APPEND VALUE #( name = lang->iso type = CAST #( cl_abap_datadescr=>describe_by_name( 'TEXTPOOL-ENTRY' ) ) ) TO components.
     ENDLOOP.
 
-    struct = cl_abap_structdescr=>get( p_components = components ).
+    struct = cl_abap_structdescr=>get( components ).
     table = cl_abap_tabledescr=>get( p_line_type = struct p_key_kind = cl_abap_tabledescr=>keydefkind_empty ).
   ENDMETHOD.
 
@@ -88,7 +88,7 @@ CLASS zcl_translation_file IMPLEMENTATION.
       col->r_column->set_long_text( CONV #( col->columnname ) ).
       col->r_column->set_short_text( space ).
       col->r_column->set_f1_rollname( space ).
-      col->r_column->set_medium_text( space  ).
+      col->r_column->set_medium_text( space ).
     ENDLOOP.
 
     "Export
@@ -103,7 +103,9 @@ CLASS zcl_translation_file IMPLEMENTATION.
 
     "Assume first row has headers with ISO languages as translations
     DATA(mapping) = get_column_mapping( <table>[ 1 ] ).
-    "TODO error handling when no mapping - col is 0
+    if mapping-object_name = 0 or mapping-object_type = 0 or mapping-text_id = 0 or lines( mapping-translations ) = 0.
+        RAISE EXCEPTION TYPE zcx_translation EXPORTING custom_message = |Incorrect file structure or no languages. Check documentation|.
+    endif.
 
     DELETE <table> INDEX 1.
     LOOP AT <table> ASSIGNING FIELD-SYMBOL(<row>).
@@ -126,7 +128,7 @@ CLASS zcl_translation_file IMPLEMENTATION.
   METHOD import_table_from_excel.
     "Upload and parse excel file
     DATA it_bin_data TYPE w3mimetabtype.
-    "TODO error handling file exists?
+
     cl_gui_frontend_services=>gui_upload( EXPORTING filename = full_file_path filetype = 'BIN' CHANGING data_tab = it_bin_data ).
     DATA(file_as_xstring) = cl_bcs_convert=>solix_to_xstring( it_bin_data ).
     DATA(excel) = NEW cl_fdt_xl_spreadsheet( document_name = full_file_path xdocument = file_as_xstring ).

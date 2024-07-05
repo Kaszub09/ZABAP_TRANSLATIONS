@@ -15,11 +15,10 @@ CLASS zcl_translation_languages DEFINITION PUBLIC FINAL CREATE PUBLIC.
 
     DATA:
         languages TYPE tt_language READ-ONLY.
-
 ENDCLASS.
 
 CLASS zcl_translation_languages IMPLEMENTATION.
   METHOD constructor.
-    SELECT spras AS sap, laiso AS iso FROM t002 WHERE spras IN @lang_range INTO CORRESPONDING FIELDS OF TABLE @languages .
+    SELECT spras AS sap, laiso AS iso FROM t002 WHERE spras IN @lang_range INTO CORRESPONDING FIELDS OF TABLE @languages.
   ENDMETHOD.
 ENDCLASS.

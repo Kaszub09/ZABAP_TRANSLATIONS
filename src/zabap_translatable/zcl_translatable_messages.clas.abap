@@ -1,4 +1,4 @@
-CLASS zcl_translatable_messages DEFINITION PUBLIC FINAL CREATE PUBLIC.
+CLASS zcl_translatable_messages DEFINITION PUBLIC CREATE PRIVATE GLOBAL FRIENDS zcl_translation_factory.
 
   PUBLIC SECTION.
     INTERFACES:
@@ -15,7 +15,6 @@ CLASS zcl_translatable_messages DEFINITION PUBLIC FINAL CREATE PUBLIC.
       get_text IMPORTING text_id TYPE string RETURNING VALUE(text) TYPE REF TO zif_translatable=>t_text,
       modify_translation IMPORTING sap_lang TYPE syst_langu content TYPE textpooltx
                          CHANGING translations TYPE zif_translatable=>tt_translation,
-      update_translation_log IMPORTING base TYPE tt_t100,
       update_last_changed IMPORTING base TYPE tt_t100.
 
     CONSTANTS:
@@ -77,7 +76,8 @@ CLASS zcl_translatable_messages IMPLEMENTATION.
       update_last_changed( t100_table ).
     ENDIF.
 
-    update_translation_log( t100_table ).
+    zcl_translation_factory=>get_lxe_log( )->update_lxe_log( VALUE #( FOR t100_row IN t100_table (
+        objname = |{ t100_row-arbgb WIDTH = 20 }{ t100_row-msgnr }| objtype = c_lxe_type targlng = sap_lang ) ) ).
   ENDMETHOD.
 
   METHOD get_text.
@@ -113,17 +113,4 @@ CLASS zcl_translatable_messages IMPLEMENTATION.
     MODIFY t100u FROM TABLE @t100u_table.
   ENDMETHOD.
 
-  METHOD update_translation_log.
-    DATA lxe_log_tab TYPE STANDARD TABLE OF lxe_log WITH EMPTY KEY.
-
-    SELECT SINGLE custmnr FROM lxe_custmnr INTO @DATA(custmnr).
-    GET TIME.
-
-    LOOP AT base REFERENCE INTO DATA(base_row).
-      APPEND VALUE #( custmnr = custmnr targlng = base_row->sprsl objtype = c_lxe_type
-        objname = |{ base_row->arbgb WIDTH = 20 }{ base_row->msgnr }| uname = sy-uname udate = sy-datum utime = sy-uzeit ) TO lxe_log_tab.
-    ENDLOOP.
-
-    MODIFY lxe_log FROM TABLE @lxe_log_tab.
-  ENDMETHOD.
 ENDCLASS.

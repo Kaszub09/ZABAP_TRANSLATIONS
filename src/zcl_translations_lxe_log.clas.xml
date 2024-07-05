@@ -3,15 +3,22 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <VSEOCLASS>
-    <CLSNAME>ZCL_TRANSLATION_OBJECTS</CLSNAME>
+    <CLSNAME>ZCL_TRANSLATIONS_LXE_LOG</CLSNAME>
     <LANGU>E</LANGU>
-    <DESCRIPT>Class to manage translation objects</DESCRIPT>
+    <DESCRIPT>Helper class for updating LXE LOG</DESCRIPT>
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
     <FIXPT>X</FIXPT>
     <UNICODE>X</UNICODE>
     <WITH_UNIT_TESTS>X</WITH_UNIT_TESTS>
    </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>UPDATE_LXE_LOG</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Updates: custmnr, uname, udate, utime, lang (lx_languages)</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
   </asx:values>
  </asx:abap>
 </abapGit>

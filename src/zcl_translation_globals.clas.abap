@@ -2,7 +2,7 @@ CLASS zcl_translation_globals DEFINITION PUBLIC FINAL CREATE PUBLIC.
 
   PUBLIC SECTION.
     CONSTANTS:
-      c_version TYPE string VALUE '0.4.2',
+      c_version TYPE string VALUE '1.0.0',
       BEGIN OF c_object_type,
         transaction    TYPE trobjtype  VALUE 'TRAN',
         program        TYPE trobjtype  VALUE 'PROG',
