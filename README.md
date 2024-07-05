@@ -6,6 +6,7 @@ Allows for easy export of all texts in given package/program etc. to excel file,
  
 # Supported objects
 | Object | Supported | Comment | 
+| - | - | - |
 | Program `PROG` | + | Fully(?) supported|
 | Function group `FUGR` | + | Same as program |
 | Class `CLAS` | + | Fully supported |
