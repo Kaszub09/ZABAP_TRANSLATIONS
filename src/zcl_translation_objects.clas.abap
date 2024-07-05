@@ -24,11 +24,15 @@ CLASS zcl_translation_objects IMPLEMENTATION.
 
   METHOD get_all_texts.
     LOOP AT translatables INTO DATA(translatable).
+    data(index) = sy-tabix.
       LOOP AT languages->languages REFERENCE INTO DATA(lang).
         translatable->read_language( lang->sap ).
+        cl_progress_indicator=>progress_indicate( i_processed = index i_total = lines( translatables ) i_output_immediately = abap_true
+            i_text = |Reading { index }/{ lines( translatables ) } - { translatable->object_type }-{ translatable->object_name }| ).
       ENDLOOP.
       APPEND LINES OF translatable->get_all_texts( ) TO texts.
     ENDLOOP.
+     cl_progress_indicator=>progress_indicate( i_text = |Read { lines( translatables ) }| ).
   ENDMETHOD.
 
   METHOD save_all_translatable.
