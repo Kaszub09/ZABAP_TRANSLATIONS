@@ -42,8 +42,8 @@ FORM export RAISING zcx_translation.
        OR ( object = @zcl_translation_globals=>c_object_type-data_element AND obj_name IN @s_datael AND @( lines( s_datael[] ) ) > 0 )
        OR ( object = @zcl_translation_globals=>c_object_type-domain AND obj_name IN @s_domain AND @( lines( s_domain[] ) ) > 0 )
        OR ( @( lines( s_packag[] ) ) > 0 AND @( lines( s_transa[] ) ) = 0 AND @( lines( s_prog[] ) ) = 0
-            AND @( lines( s_class[] ) ) > 0 AND @( lines( s_fungr[] ) ) = 0 AND @( lines( s_msgcls[] ) ) = 0
-            AND @( lines( s_table[] ) ) > 0 AND @( lines( s_datael[] ) ) = 0 AND @( lines( s_domain[] ) ) = 0 ) )
+            AND @( lines( s_class[] ) ) = 0 AND @( lines( s_fungr[] ) ) = 0 AND @( lines( s_msgcls[] ) ) = 0
+            AND @( lines( s_table[] ) ) = 0 AND @( lines( s_datael[] ) ) = 0 AND @( lines( s_domain[] ) ) = 0 ) )
     AND delflag = @abap_false
   INTO TABLE @DATA(objects).
 
