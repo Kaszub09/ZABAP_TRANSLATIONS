@@ -92,14 +92,14 @@ FORM import RAISING zcx_translation.
 ENDFORM.
 
 FORM set_file_path.
+  DATA:
+    files       TYPE filetable,
+    files_count TYPE i,
+    user_action TYPE i.
 
-  DATA path TYPE char128.
+  cl_gui_frontend_services=>file_open_dialog( CHANGING file_table = files rc = files_count user_action = user_action ).
 
-  CALL FUNCTION 'F4_FILENAME'
-    EXPORTING
-      field_name = 'P_FILE'
-    IMPORTING
-      file_name  = path.
-
-  p_file = path.
+  IF user_action = cl_gui_frontend_services=>action_ok AND files_count = 1 .
+    p_file = files[ 1 ]-filename.
+  ENDIF.
 ENDFORM.
