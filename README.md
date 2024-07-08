@@ -1,7 +1,7 @@
 # ZABAP_TRANSLATIONS
 Help with mass translations in ABAP
 
-# Features
+# Features 
 Allows for easy export of all texts in given package/program etc. to excel file, as well as mass import. After import SLXT can be used to create transport with translations.
  
 # Supported objects
