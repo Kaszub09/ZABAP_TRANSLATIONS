@@ -7,6 +7,11 @@ REPORT ztranslations.
 INCLUDE ztranslations_selection_screen.
 
 START-OF-SELECTION.
+  IF strlen( p_file ) = 0.
+    MESSAGE |Enter filepath (.xslx)| TYPE 'S' DISPLAY LIKE 'E'.
+    RETURN.
+  ENDIF.
+
   DATA(languages) = NEW zcl_translation_languages( s_lang[] ).
   TRY.
       IF p_export = abap_true.
@@ -25,18 +30,27 @@ START-OF-SELECTION.
 
 FORM export RAISING zcx_translation.
   SELECT FROM tadir
-  FIELDS object AS object_type, obj_name AS object_name
+  FIELDS DISTINCT obj_name AS object_name,
+    CASE WHEN object = @zcl_translation_globals=>c_object_type-function_group_include_sap
+              OR object = @zcl_translation_globals=>c_object_type-function_group_include_client
+         THEN @zcl_translation_globals=>c_object_type-function_group
+         ELSE object
+    END AS object_type
   WHERE devclass IN @s_packag
     "Restrict object types in case user only selected package
     AND object IN ( @zcl_translation_globals=>c_object_type-transaction, @zcl_translation_globals=>c_object_type-program,
                     @zcl_translation_globals=>c_object_type-class, @zcl_translation_globals=>c_object_type-function_group,
+                    @zcl_translation_globals=>c_object_type-function_group_include_sap,
+                    @zcl_translation_globals=>c_object_type-function_group_include_client,
                     @zcl_translation_globals=>c_object_type-message_class, @zcl_translation_globals=>c_object_type-table,
                     @zcl_translation_globals=>c_object_type-data_element, @zcl_translation_globals=>c_object_type-domain )
     "Make possible selecting different objects in one query, and select them only if user set some condition
     AND ( ( object = @zcl_translation_globals=>c_object_type-transaction AND obj_name IN @s_transa AND @( lines( s_transa[] ) ) > 0 )
        OR ( object = @zcl_translation_globals=>c_object_type-program AND obj_name IN @s_prog AND @( lines( s_prog[] ) ) > 0 )
        OR ( object = @zcl_translation_globals=>c_object_type-class AND obj_name IN @s_class AND @( lines( s_class[] ) ) > 0 )
-       OR ( object = @zcl_translation_globals=>c_object_type-function_group AND obj_name IN @s_fungr AND @( lines( s_fungr[] ) ) > 0 )
+       OR ( ( object = @zcl_translation_globals=>c_object_type-function_group_include_sap
+              OR object = @zcl_translation_globals=>c_object_type-function_group_include_client
+              OR object = @zcl_translation_globals=>c_object_type-function_group ) AND obj_name IN @s_fungr AND @( lines( s_fungr[] ) ) > 0 )
        OR ( object = @zcl_translation_globals=>c_object_type-message_class AND obj_name IN @s_msgcls AND @( lines( s_msgcls[] ) ) > 0 )
        OR ( object = @zcl_translation_globals=>c_object_type-table AND obj_name IN @s_table AND @( lines( s_table[] ) ) > 0 )
        OR ( object = @zcl_translation_globals=>c_object_type-data_element AND obj_name IN @s_datael AND @( lines( s_datael[] ) ) > 0 )
