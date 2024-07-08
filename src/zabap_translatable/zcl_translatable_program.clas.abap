@@ -11,7 +11,7 @@ CLASS zcl_translatable_program DEFINITION PUBLIC CREATE PRIVATE GLOBAL FRIENDS z
       add_subcomponent IMPORTING sub_type TYPE string RAISING zcx_translation.
 
     DATA:
-      subcomponents TYPE STANDARD TABLE OF REF TO zif_translatable.
+      subcomponents TYPE STANDARD TABLE OF REF TO zif_translatable WITH EMPTY KEY.
 ENDCLASS.
 
 CLASS zcl_translatable_program IMPLEMENTATION.

@@ -73,7 +73,7 @@ CLASS zcl_translatable_screen_el IMPLEMENTATION.
   METHOD zif_translatable~modify_texts.
     LOOP AT new_texts REFERENCE INTO DATA(new_text) USING KEY text_id
     WHERE object_type = zif_translatable~object_type AND object_name = zif_translatable~object_name.
-      DATA(parsed) = parse_text_id( EXPORTING text_id = new_text->text_id ).
+      DATA(parsed) = parse_text_id( new_text->text_id ).
       IF parsed-sub_type <> sub_type.
         CONTINUE.
       ENDIF.

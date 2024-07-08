@@ -105,7 +105,7 @@ CLASS ltcl_translatable_table IMPLEMENTATION.
         ( text_id = 'DD03T|FIELD_1|A|0000' translations = VALUE #( ( sap_lang = c_lang_en content = 'Modified DD03T' )
                                                                    ( sap_lang = c_lang_pl content = 'New in another lang DD03T' ) ) )
         ( text_id = 'DD08T|MANDT|A|0000' translations = VALUE #( ( sap_lang = c_lang_en content = 'Modified DD08T' )
-                                                                 ( sap_lang = c_lang_pl content = 'New in another lang DD08T' ) ) ) ) .
+                                                                 ( sap_lang = c_lang_pl content = 'New in another lang DD08T' ) ) ) ).
     cut->modify_texts( new_texts ).
 
     IF en = abap_true.

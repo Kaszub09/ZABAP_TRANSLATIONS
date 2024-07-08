@@ -164,7 +164,7 @@ CLASS ltcl_translatable_textpool IMPLEMENTATION.
     READ TEXTPOOL c_test_prog INTO textpool_en LANGUAGE c_lang_en.
     READ TEXTPOOL c_test_prog INTO textpool_pl LANGUAGE c_lang_pl.
 
-    save_modified_in_db(  ).
+    save_modified_in_db( ).
 
     "Build expected based on changes
     DATA(expected_en) = textpool_en.

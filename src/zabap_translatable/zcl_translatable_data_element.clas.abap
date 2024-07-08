@@ -54,7 +54,7 @@ CLASS zcl_translatable_data_element IMPLEMENTATION.
       DATA(program_text) = get_text( get_text_id( VALUE #( BASE CORRESPONDING #( text->* ) text_type = c_text_type-description ) ) ).
       modify_translation( EXPORTING sap_lang = sap_lang content = CONV #( text->ddtext ) CHANGING translations = program_text->translations ).
 
-      program_text = get_text( get_text_id( VALUE #( BASE CORRESPONDING #( text->* ) text_type = c_text_type-short  ) ) ).
+      program_text = get_text( get_text_id( VALUE #( BASE CORRESPONDING #( text->* ) text_type = c_text_type-short ) ) ).
       modify_translation( EXPORTING sap_lang = sap_lang content = CONV #( text->scrtext_s ) CHANGING translations = program_text->translations ).
 
       program_text = get_text( get_text_id( VALUE #( BASE CORRESPONDING #( text->* ) text_type = c_text_type-medium ) ) ).
@@ -147,10 +147,6 @@ CLASS zcl_translatable_data_element IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD update_dd04l.
-    IF lines( dd04t ) = 0.
-      RETURN.
-    ENDIF.
-
     "Update texts lengths, in case some new text are longer
     SELECT * FROM dd04l
     FOR ALL ENTRIES IN @dd04t

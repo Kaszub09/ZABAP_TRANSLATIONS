@@ -4,11 +4,13 @@ CLASS zcl_translatable_function_gr DEFINITION PUBLIC CREATE PRIVATE GLOBAL FRIEN
       zif_translatable.
 
     METHODS:
-      constructor IMPORTING function_group TYPE sobj_name RAISING zcx_translation,
+      constructor IMPORTING function_group TYPE sobj_name RAISING zcx_translation.
+
+  PRIVATE SECTION.
+    METHODS:
       texts_fg_to_program IMPORTING texts TYPE zif_translatable=>tt_text RETURNING VALUE(translated_texts) TYPE zif_translatable=>tt_text,
       texts_program_to_fg IMPORTING texts TYPE zif_translatable=>tt_text RETURNING VALUE(translated_texts) TYPE zif_translatable=>tt_text.
 
-  PRIVATE SECTION.
     DATA:
       fg_program TYPE REF TO zif_translatable.
 ENDCLASS.

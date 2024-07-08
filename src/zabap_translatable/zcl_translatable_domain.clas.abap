@@ -133,10 +133,6 @@ CLASS zcl_translatable_domain IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD update_dd07t.
-    IF lines( dd07t ) = 0.
-      RETURN.
-    ENDIF.
-
     "Update only texts, leave DOMVAL... as is
     DATA dd07t_db TYPE tt_dd07t.
     SELECT * FROM dd07t

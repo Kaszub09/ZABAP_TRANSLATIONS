@@ -122,9 +122,9 @@ CLASS ZCL_TRANSLATABLE_MENU_EL IMPLEMENTATION.
             sub_code = parsed-sub_code texttype = parsed-texttype text = CONV #( translation->content ) ) TO rsmptexts_table.
 
         IF parsed-obj_type <> 'T' AND parsed-texttype = 'T'.
-          APPEND VALUE #( objname = zif_translatable~object_name objtype = c_lxe_type-tech targlng = sap_lang  ) TO lxe_log_table.
+          APPEND VALUE #( objname = zif_translatable~object_name objtype = c_lxe_type-tech targlng = sap_lang ) TO lxe_log_table.
         ELSE.
-          APPEND VALUE #( objname = zif_translatable~object_name objtype = c_lxe_type-texts targlng = sap_lang  ) TO lxe_log_table.
+          APPEND VALUE #( objname = zif_translatable~object_name objtype = c_lxe_type-texts targlng = sap_lang ) TO lxe_log_table.
         ENDIF.
       ENDLOOP.
     ENDLOOP.

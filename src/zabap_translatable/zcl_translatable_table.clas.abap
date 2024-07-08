@@ -52,7 +52,7 @@ CLASS zcl_translatable_table IMPLEMENTATION.
     SELECT @c_table-dd08t AS tab, fieldname, as4local, as4vers, ddtext
     FROM dd08t WHERE tabname = @zif_translatable~object_name AND ddlanguage = @sap_lang
     UNION
-    SELECT @c_table-dd02t AS tab, @space AS fieldname, as4local, as4vers, ddtext
+    SELECT @c_table-dd02t AS tab,@space AS fieldname, as4local, as4vers, ddtext
     FROM dd02t WHERE tabname = @zif_translatable~object_name AND ddlanguage = @sap_lang
     UNION
     SELECT @c_table-dd03t AS tab, fieldname, as4local, @empty_as4vers AS as4vers, ddtext
@@ -104,15 +104,15 @@ CLASS zcl_translatable_table IMPLEMENTATION.
           WHEN c_table-dd02t.
             APPEND VALUE #( BASE CORRESPONDING dd02t( parsed ) tabname = zif_translatable~object_name
                             ddlanguage = sap_lang ddtext  = translation->content ) TO dd02t_table.
-            APPEND VALUE #( objname = zif_translatable~object_name objtype = c_lxe_type-descriptions targlng = sap_lang  ) TO lxe_log_table.
+            APPEND VALUE #( objname = zif_translatable~object_name objtype = c_lxe_type-descriptions targlng = sap_lang ) TO lxe_log_table.
           WHEN c_table-dd03t.
             APPEND VALUE #( BASE CORRESPONDING dd03t( parsed ) tabname = zif_translatable~object_name
                             ddlanguage = sap_lang ddtext  = translation->content ) TO dd03t_table.
-            APPEND VALUE #( objname = zif_translatable~object_name objtype = c_lxe_type-descriptions targlng = sap_lang  ) TO lxe_log_table.
+            APPEND VALUE #( objname = zif_translatable~object_name objtype = c_lxe_type-descriptions targlng = sap_lang ) TO lxe_log_table.
           WHEN c_table-dd08t.
             APPEND VALUE #( BASE CORRESPONDING dd08t( parsed ) tabname = zif_translatable~object_name
                             ddlanguage = sap_lang ddtext  = translation->content ) TO dd08t_table.
-            APPEND VALUE #( objname = zif_translatable~object_name objtype = c_lxe_type-keys targlng = sap_lang  ) TO lxe_log_table.
+            APPEND VALUE #( objname = zif_translatable~object_name objtype = c_lxe_type-keys targlng = sap_lang ) TO lxe_log_table.
         ENDCASE.
       ENDLOOP.
     ENDLOOP.

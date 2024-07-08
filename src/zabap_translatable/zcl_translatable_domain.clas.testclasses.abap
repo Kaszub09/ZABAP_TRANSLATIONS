@@ -163,11 +163,11 @@ CLASS ltcl_translatable_domain IMPLEMENTATION.
 
     "Verification - another language not saved
     save_modified_in_db( pl = abap_false ).
-    SELECT * FROM dd01t WHERE domname = @c_test_domain and ddlanguage = @c_lang_pl INTO TABLE @dd01t.
+    SELECT * FROM dd01t WHERE domname = @c_test_domain AND ddlanguage = @c_lang_pl INTO TABLE @dd01t.
     cl_abap_unit_assert=>assert_equals( exp = 0 act = lines( dd01t ) msg = |Another lang shouldn't be saved| ).
 
     "Verification
-    save_modified_in_db(  ).
+    save_modified_in_db( ).
 
     SELECT * FROM dd01t WHERE domname = @c_test_domain INTO TABLE @dd01t.
     cl_abap_unit_assert=>assert_equals( exp = expected act = dd01t ).
@@ -187,7 +187,7 @@ CLASS ltcl_translatable_domain IMPLEMENTATION.
     cl_abap_unit_assert=>assert_equals( exp = 0 act = lines( dd07t ) msg = |Another lang shouldn't be saved| ).
 
     "Verification
-    save_modified_in_db(  ).
+    save_modified_in_db( ).
 
     SELECT * FROM dd07t WHERE domname = @c_test_domain INTO TABLE @dd07t.
 
