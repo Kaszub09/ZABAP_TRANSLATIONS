@@ -28,13 +28,16 @@ START-OF-SELECTION.
       MESSAGE zcx->get_text( ) TYPE 'E'.
   ENDTRY.
 
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_file.
+  PERFORM set_file_path.
+
 FORM export RAISING zcx_translation.
   SELECT FROM tadir
   FIELDS DISTINCT obj_name AS object_name,
     CASE WHEN object = @zcl_translation_globals=>c_object_type-function_group_include_sap
               OR object = @zcl_translation_globals=>c_object_type-function_group_include_client
          THEN @zcl_translation_globals=>c_object_type-function_group
-         ELSE object
+         ELSE tadir~object
     END AS object_type
   WHERE devclass IN @s_packag
     "Restrict object types in case user only selected package
@@ -86,4 +89,17 @@ FORM import RAISING zcx_translation.
   ENDLOOP.
 
   translation_objects->save_all_translatable( ).
+ENDFORM.
+
+FORM set_file_path.
+
+  DATA path TYPE char128.
+
+  CALL FUNCTION 'F4_FILENAME'
+    EXPORTING
+      field_name = 'P_FILE'
+    IMPORTING
+      file_name  = path.
+
+  p_file = path.
 ENDFORM.

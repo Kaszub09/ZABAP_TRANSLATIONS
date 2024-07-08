@@ -52,7 +52,7 @@ CLASS zcl_translatable_table IMPLEMENTATION.
     SELECT @c_table-dd08t AS tab, fieldname, as4local, as4vers, ddtext
     FROM dd08t WHERE tabname = @zif_translatable~object_name AND ddlanguage = @sap_lang
     UNION
-    SELECT @c_table-dd02t AS tab,@space AS fieldname, as4local, as4vers, ddtext
+    SELECT @c_table-dd02t AS tab, @space AS fieldname, as4local, as4vers, ddtext
     FROM dd02t WHERE tabname = @zif_translatable~object_name AND ddlanguage = @sap_lang
     UNION
     SELECT @c_table-dd03t AS tab, fieldname, as4local, @empty_as4vers AS as4vers, ddtext
