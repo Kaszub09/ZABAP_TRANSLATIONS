@@ -24,8 +24,8 @@ CLASS zcl_translatable_textpool DEFINITION PUBLIC CREATE PRIVATE GLOBAL FRIENDS 
 
     CONSTANTS:
       BEGIN OF c_sel_text,
-        no_ref_prefix TYPE c LENGTH 8 VALUE '        ',
-        ref_whole     TYPE c LENGTH 9 VALUE 'D       .',
+        no_ref_prefix        TYPE c LENGTH 8 VALUE '        ',
+        ref_whole            TYPE c LENGTH 9 VALUE 'D       .',
       END OF c_sel_text,
       c_lxe_type TYPE lxeobjtype VALUE 'RPT4'.
 
@@ -74,8 +74,12 @@ CLASS zcl_translatable_textpool IMPLEMENTATION.
 
       DATA(program_text) = get_text( new_text->text_id ).
       LOOP AT new_text->translations REFERENCE INTO DATA(new_translation).
-        DATA(content) = COND textpooltx( WHEN parsed-id = 'S' AND new_translation->content(9) <> c_sel_text-ref_whole
-            THEN |{ c_sel_text-no_ref_prefix WIDTH = 8 }{ new_translation->content }| ELSE new_translation->content ).
+        DATA(content) = COND textpooltx(
+        "Non-edited excel still has empty prefixes, even though they are not visible after opening
+        WHEN parsed-id = 'S' AND new_translation->content(9) <> c_sel_text-ref_whole AND new_translation->content(8) <> c_sel_text-no_ref_prefix
+            THEN |{ c_sel_text-no_ref_prefix WIDTH = 8 }{ new_translation->content }|
+            ELSE new_translation->content ).
+
         modify_translation( EXPORTING sap_lang = new_translation->sap_lang content = content
                             CHANGING translations = program_text->translations ).
       ENDLOOP.
