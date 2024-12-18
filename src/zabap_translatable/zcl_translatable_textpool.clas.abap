@@ -99,6 +99,11 @@ CLASS zcl_translatable_textpool IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD zif_translatable~save_modified_texts.
+    IF NOT line_exists( read_sap_langs[ table_line = sap_lang ] ).
+      "^No lang was read -> no text was changed -> don't save, it will remove all texts.
+      RETURN.
+    ENDIF.
+
     DATA textpool TYPE STANDARD TABLE OF textpool WITH EMPTY KEY.
 
     LOOP AT texts REFERENCE INTO DATA(text).
