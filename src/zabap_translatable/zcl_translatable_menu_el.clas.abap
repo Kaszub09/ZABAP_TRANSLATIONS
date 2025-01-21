@@ -37,7 +37,7 @@ ENDCLASS.
 
 
 
-CLASS ZCL_TRANSLATABLE_MENU_EL IMPLEMENTATION.
+CLASS zcl_translatable_menu_el IMPLEMENTATION.
 
 
   METHOD constructor.
@@ -128,6 +128,11 @@ CLASS ZCL_TRANSLATABLE_MENU_EL IMPLEMENTATION.
         ENDIF.
       ENDLOOP.
     ENDLOOP.
+
+    IF lines( rsmptexts_table ) = 0.
+      RETURN.
+    ENDIF.
+
 
     MODIFY rsmptexts FROM TABLE @rsmptexts_table.
     lxe_log->update_lxe_log( lxe_log_table ).

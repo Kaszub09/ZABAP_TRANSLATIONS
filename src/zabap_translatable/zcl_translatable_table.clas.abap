@@ -117,6 +117,10 @@ CLASS zcl_translatable_table IMPLEMENTATION.
       ENDLOOP.
     ENDLOOP.
 
+    IF lines( dd02t_table ) = 0 AND lines( dd03t_table ) = 0 AND lines( dd08t_table ) = 0.
+      RETURN.
+    ENDIF.
+
     MODIFY dd02t FROM TABLE @dd02t_table.
     MODIFY dd03t FROM TABLE @dd03t_table.
     MODIFY dd08t FROM TABLE @dd08t_table.

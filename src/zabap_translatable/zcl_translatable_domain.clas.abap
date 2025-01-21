@@ -113,6 +113,10 @@ CLASS zcl_translatable_domain IMPLEMENTATION.
     MODIFY dd01t FROM TABLE @dd01t_table.
     update_dd07t( dd07t_table ).
 
+    IF lines( dd01t_table ) = 0 AND lines( dd07t_table ) = 0.
+      RETURN.
+    ENDIF.
+
     lxe_log->update_lxe_log( lxe_log_table ).
   ENDMETHOD.
 
@@ -133,6 +137,10 @@ CLASS zcl_translatable_domain IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD update_dd07t.
+    IF lines( dd07t ) = 0.
+      RETURN.
+    ENDIF.
+
     "Update only texts, leave DOMVAL... as is
     DATA dd07t_db TYPE tt_dd07t.
     SELECT * FROM dd07t

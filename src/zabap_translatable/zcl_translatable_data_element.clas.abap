@@ -15,7 +15,7 @@ CLASS zcl_translatable_data_element DEFINITION PUBLIC CREATE PRIVATE GLOBAL FRIE
         as4local  TYPE as4local,
         as4vers   TYPE as4vers,
       END OF t_text_id_parsed,
-      tt_dd04t       TYPE SORTED TABLE OF dd04t WITH UNIQUE KEY rollname ddlanguage as4local as4vers.
+      tt_dd04t TYPE SORTED TABLE OF dd04t WITH UNIQUE KEY rollname ddlanguage as4local as4vers.
 
     METHODS:
      get_text_id IMPORTING parsed TYPE t_text_id_parsed RETURNING VALUE(text_id) TYPE string,
@@ -122,6 +122,11 @@ CLASS zcl_translatable_data_element IMPLEMENTATION.
         ENDCASE.
       ENDLOOP.
     ENDLOOP.
+
+    "None found, e.g. tried to save language without any texts supplied
+    IF lines( dd04t_table ) = 0.
+      RETURN.
+    ENDIF.
 
     MODIFY dd04t FROM TABLE @dd04t_table.
     update_dd04l( dd04t_table ).

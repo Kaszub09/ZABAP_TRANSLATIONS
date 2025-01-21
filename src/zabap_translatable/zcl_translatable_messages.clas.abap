@@ -70,6 +70,10 @@ CLASS zcl_translatable_messages IMPLEMENTATION.
       ENDLOOP.
     ENDLOOP.
 
+    IF lines( t100_table ) = 0.
+      RETURN.
+    ENDIF.
+
     MODIFY t100 FROM TABLE @t100_table.
 
     IF sap_lang = master_lang.

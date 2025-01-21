@@ -109,6 +109,10 @@ CLASS zcl_translatable_screen_el IMPLEMENTATION.
       ENDLOOP.
     ENDLOOP.
 
+    IF lines( d020t_table ) = 0 AND lines( d021t_table ) = 0.
+      RETURN.
+    ENDIF.
+
     MODIFY d020t FROM TABLE @d020t_table.
     MODIFY d021t FROM TABLE @d021t_table.
 

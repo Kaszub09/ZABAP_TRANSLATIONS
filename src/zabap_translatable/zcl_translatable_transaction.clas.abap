@@ -61,6 +61,10 @@ CLASS zcl_translatable_transaction IMPLEMENTATION.
       ENDLOOP.
     ENDLOOP.
 
+    IF lines( tstct_table ) = 0.
+      RETURN.
+    ENDIF.
+
     MODIFY tstct FROM TABLE @tstct_table.
 
     zcl_translation_factory=>get_lxe_log( )->update_lxe_log( VALUE #( (
