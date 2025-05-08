@@ -6,6 +6,10 @@
 REPORT ztranslations.
 INCLUDE ztranslations_selection_screen.
 
+INITIALIZATION.
+  APPEND VALUE #( sign = 'I' option = 'EQ' low = sy-langu ) TO s_lang[].
+  APPEND VALUE #( sign = 'I' option = 'EQ' low = 'E' ) TO s_lang[].
+
 START-OF-SELECTION.
   IF strlen( p_file ) = 0.
     MESSAGE |Enter filepath (.xslx)| TYPE 'S' DISPLAY LIKE 'E'.

@@ -410,127 +410,6 @@
        <OUTPUT_FLD>X</OUTPUT_FLD>
       </RPY_DYFATC>
      </FIELDS>
-     <FLOW_LOGIC>
-      <RPY_DYFLOW>
-       <LINE>PROCESS BEFORE OUTPUT.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>*&amp;SPWIZARD: PBO FLOW LOGIC FOR TABLECONTROL &apos;TABLE_CONTROL&apos;</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>  MODULE TABLE_CONTROL_INIT.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>*&amp;SPWIZARD: MODULE TABLE_CONTROL_CHANGE_TC_ATTR.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>*&amp;SPWIZARD: MODULE TABLE_CONTROL_CHANGE_COL_ATTR.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>  LOOP AT   G_TABLE_CONTROL_ITAB</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>       INTO G_TABLE_CONTROL_WA</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>       WITH CONTROL TABLE_CONTROL</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>       CURSOR TABLE_CONTROL-CURRENT_LINE.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>*&amp;SPWIZARD:   MODULE TABLE_CONTROL_CHANGE_FIELD_ATTR</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>    MODULE TABLE_CONTROL_MOVE.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>    MODULE TABLE_CONTROL_GET_LINES.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>  ENDLOOP.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW/>
-      <RPY_DYFLOW>
-       <LINE>*&amp;SPWIZARD: PBO FLOW LOGIC FOR TABSTRIP &apos;TABSTRIP&apos;</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>  MODULE TABSTRIP_ACTIVE_TAB_SET.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>  CALL SUBSCREEN:</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>       0002_SCA INCLUDING G_TABSTRIP-PROG &apos;0002&apos;,</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>       0003_SCA INCLUDING G_TABSTRIP-PROG &apos;0003&apos;.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>* MODULE STATUS_0001.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>*</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>PROCESS AFTER INPUT.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>*&amp;SPWIZARD: PAI FLOW LOGIC FOR TABLECONTROL &apos;TABLE_CONTROL&apos;</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>  LOOP AT G_TABLE_CONTROL_ITAB.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>    CHAIN.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>      FIELD TADIR-PGMID.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>      FIELD TADIR-OBJECT.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>      FIELD TADIR-OBJ_NAME.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>      MODULE TABLE_CONTROL_MODIFY ON CHAIN-REQUEST.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>    ENDCHAIN.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>  ENDLOOP.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>  MODULE TABLE_CONTROL_USER_COMMAND.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>*&amp;SPWIZARD: MODULE TABLE_CONTROL_CHANGE_TC_ATTR.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>*&amp;SPWIZARD: MODULE TABLE_CONTROL_CHANGE_COL_ATTR.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW/>
-      <RPY_DYFLOW>
-       <LINE>*&amp;SPWIZARD: PAI FLOW LOGIC FOR TABSTRIP &apos;TABSTRIP&apos;</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>  CALL SUBSCREEN:</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>       0002_SCA,</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>       0003_SCA.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>  MODULE TABSTRIP_ACTIVE_TAB_GET.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>* MODULE USER_COMMAND_0001.</LINE>
-      </RPY_DYFLOW>
-     </FLOW_LOGIC>
     </item>
     <item>
      <HEADER>
@@ -576,23 +455,6 @@
        <INPUT_FLD>X</INPUT_FLD>
       </RPY_DYFATC>
      </FIELDS>
-     <FLOW_LOGIC>
-      <RPY_DYFLOW>
-       <LINE>PROCESS BEFORE OUTPUT.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>* MODULE STATUS_0110.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>*</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>PROCESS AFTER INPUT.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>* MODULE USER_COMMAND_0110.</LINE>
-      </RPY_DYFLOW>
-     </FLOW_LOGIC>
     </item>
     <item>
      <HEADER>
@@ -638,23 +500,6 @@
        <INPUT_FLD>X</INPUT_FLD>
       </RPY_DYFATC>
      </FIELDS>
-     <FLOW_LOGIC>
-      <RPY_DYFLOW>
-       <LINE>PROCESS BEFORE OUTPUT.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>* MODULE STATUS_0110.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>*</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>PROCESS AFTER INPUT.</LINE>
-      </RPY_DYFLOW>
-      <RPY_DYFLOW>
-       <LINE>* MODULE USER_COMMAND_0110.</LINE>
-      </RPY_DYFLOW>
-     </FLOW_LOGIC>
     </item>
    </DYNPROS>
    <CUA>
