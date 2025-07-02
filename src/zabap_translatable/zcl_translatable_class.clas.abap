@@ -11,7 +11,8 @@ CLASS zcl_translatable_class DEFINITION PUBLIC CREATE PRIVATE GLOBAL FRIENDS zcl
     METHODS:
       texts_class_to_program IMPORTING texts TYPE zif_translatable=>tt_text RETURNING VALUE(translated_texts) TYPE zif_translatable=>tt_text,
       texts_program_to_class IMPORTING texts TYPE zif_translatable=>tt_text RETURNING VALUE(translated_texts) TYPE zif_translatable=>tt_text.
-
+    CONSTANTS:
+      c_lxe_type TYPE lxeobjtype VALUE 'RPT8'.
     DATA:
       class_program TYPE REF TO zif_translatable.
 ENDCLASS.
@@ -40,6 +41,8 @@ CLASS zcl_translatable_class IMPLEMENTATION.
 
   METHOD zif_translatable~save_modified_texts.
     class_program->save_modified_texts( sap_lang ).
+    zcl_translation_factory=>get_lxe_log( )->update_lxe_log( VALUE #( (
+        objname = zif_translatable~object_name objtype = c_lxe_type targlng = sap_lang ) ) ).
   ENDMETHOD.
 
   METHOD texts_class_to_program.
